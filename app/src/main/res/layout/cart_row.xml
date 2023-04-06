@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingEnd="16dp"
+    android:background="@color/white_color">
+
+    <!-- Chọn -->
+    <CheckBox
+        android:id="@+id/cbChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </CheckBox>
+
+    <!-- Hình sản phẩm -->
+    <ImageView
+        android:id="@+id/ivProduct"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="1dp"
+        android:background="@drawable/bold_border"
+        android:src="@drawable/product">
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:orientation="vertical">
+
+        <!-- Tên sản phẩm -->
+        <TextView
+            android:id="@+id/tvNameProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phảm"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp">
+        </TextView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <!-- Số lượng -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_border">
+
+                <!-- button giảm -->
+                <ImageButton
+                    android:id="@+id/ivButtonDecrease"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="1dp"
+                    android:src="@drawable/baseline_remove_24"
+                    android:background="@color/white_color">
+                </ImageButton>
+
+                <!-- số lượng -->
+                <EditText
+                    android:id="@+id/etQuantity"
+                    android:gravity="center"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textColor="#332F2F"
+                    android:background="@drawable/light_border">
+                </EditText>
+
+                <!-- button tăng -->
+                <ImageButton
+                    android:id="@+id/ivButtonIncrease"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="1dp"
+                    android:background="@color/white_color"
+                    android:src="@drawable/baseline_add_24">
+                </ImageButton>
+            </LinearLayout>
+
+            <!-- Giá sản phẩm -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="đ9.000"
+                android:textColor="@color/primary_color"
+                android:textSize="15sp"
+                android:textStyle="bold">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

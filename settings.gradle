@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+
+        //link lien ket tao slide image
+        maven{ url "https://jitpack.io/" }
+    }
+}
+rootProject.name = "DoAn_DeTai6_AppBanHangOnline"
+include ':app'

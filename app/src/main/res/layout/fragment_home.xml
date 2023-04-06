@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <!--Container-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- slides image -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp">
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ngay_hoi_shopee"
+                        android:scaleType="fitXY">
+                    </androidx.constraintlayout.utils.widget.ImageFilterView>
+                </LinearLayout>
+
+                <!-- Gợi ý sản phẩm -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <!-- Gợi ý -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="GỢI Ý HÔM NAY"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="@color/primary_color"
+                            android:layout_weight="1">
+                        </TextView>
+
+                        <!-- Xem tất cả -->
+                        <TextView
+                            android:id="@+id/tvSeeAllSuggestedProducts"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Xem tất cả"
+                            android:textSize="16sp">
+                        </TextView>
+                    </LinearLayout>
+
+                    <!-- render sản phẩm gợi ý-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSuggestedProducts"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+
+                <!-- Danh mục sản phẩm -->
+                <LinearLayout
+                    android:id="@+id/llCategoryAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Danh mục -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DANH MỤC"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="@color/primary_color"
+                            android:layout_weight="1">
+                        </TextView>
+
+                        <!-- Xem tất cả -->
+                        <TextView
+                            android:id="@+id/tvSeeAllCategories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Xem tất cả"
+                            android:textSize="16sp">
+                        </TextView>
+                    </LinearLayout>
+
+                    <!-- render sản phẩm theo danh mục -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F9F9F9"
+                        android:paddingBottom="4dp">
+
+                        <LinearLayout
+                            android:layout_width="80dp"
+                            android:layout_height="90dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/radius_5dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="1dp"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <!-- Hình thể loại -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:gravity="center_horizontal|center_vertical">
+
+                                    <ImageView
+                                        android:id="@+id/ivCategory"
+                                        android:layout_margin="5dp"
+                                        android:layout_width="40dp"
+                                        android:layout_height="40dp"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/icons8_facebook_like_24">
+                                    </ImageView>
+                                </LinearLayout>
+
+                                <!-- Tên thể loại -->
+                                <TextView
+                                    android:id="@+id/tvNameCategory"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tất cả"
+                                    android:textColor="@color/primary_color"
+                                    android:textSize="12sp"
+                                    android:layout_marginBottom="10dp">
+                                </TextView>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvCategories"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:scrollbars="none"
+                        android:id="@+id/rvProducts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#F5F5F5">
+                    </androidx.recyclerview.widget.RecyclerView>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

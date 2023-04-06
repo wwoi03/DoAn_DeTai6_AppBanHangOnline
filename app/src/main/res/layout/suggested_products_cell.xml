@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@color/white_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Hình sản phẩm -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_border">
+
+            <androidx.constraintlayout.utils.widget.ImageFilterView
+                android:id="@+id/ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:src="@drawable/quan_si"
+                android:layout_margin="1dp">
+            </androidx.constraintlayout.utils.widget.ImageFilterView>
+        </LinearLayout>
+
+        <!-- Tên sản phẩm -->
+        <TextView
+            android:id="@+id/tvNameProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên sản phẩm"
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:gravity="center"
+            android:textColor="@color/black_color">
+        </TextView>
+
+        <!-- Giá sản phẩm -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="đ9.000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="2dp"
+            android:textColor="@color/primary_color">
+        </TextView>
+    </LinearLayout>
+</LinearLayout>
