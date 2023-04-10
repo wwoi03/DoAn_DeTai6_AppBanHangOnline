@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
+
+    <!-- CardView Thong tin san pham-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvInfoProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp">
+
+        <!-- Layout Thong tin san pham-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/product"
+                android:paddingBottom="1dp"
+                android:background="@drawable/border_bottom">
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="4dp">
+
+                <!-- Ten sp-->
+                <TextView
+                    android:id="@+id/tvNameProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Bút dạ quang phát sáng 7 màu sắc"
+                    android:textSize="12sp"
+                    android:maxLines="2"
+                    android:textColor="@color/black_color">
+                </TextView>
+
+                <!--Gia san pham-->
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="đ200.000"
+                    android:maxLines="1"
+                    android:textColor="@color/primary_color">
+                </TextView>
+
+                <!-- So luong da ban-->
+                <TextView
+                    android:id="@+id/tvSold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đã bán 2k"
+                    android:textColor="@color/black_color"
+                    android:textSize="10sp">
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

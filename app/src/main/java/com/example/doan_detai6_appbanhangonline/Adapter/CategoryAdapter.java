@@ -1,35 +1,21 @@
 package com.example.doan_detai6_appbanhangonline.Adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.GnssAntennaInfo;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageExtend;
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
 import com.example.doan_detai6_appbanhangonline.Model.Category;
 import com.example.doan_detai6_appbanhangonline.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryVH>   {
-    FirebaseStorageExtend firebaseStorageExtend = new FirebaseStorageExtend();
     ArrayList<Category> categories;
     Listener listener;
 
@@ -52,7 +38,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
         holder.tvNameCategory.setText(category.getName());
 
-        firebaseStorageExtend.loadImage("Categories", category.getImageCategory(), holder.ivCategory);
+        FirebaseStorageAuth.loadImage("Categories", category.getImageCategory(), holder.ivCategory);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

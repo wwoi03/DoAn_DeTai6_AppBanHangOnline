@@ -12,14 +12,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class FirebaseStorageExtend {
-    FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+public class FirebaseStorageAuth {
+    static FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
 
-    public FirebaseStorageExtend() {
+    public FirebaseStorageAuth() {
 
     }
 
-    public void loadImage(String folder, String image, ImageView imageView) {
+    public static void loadImage(String folder, String image, ImageView imageView) {
         StorageReference storageRef = firebaseStorage.getReference();
         String bucketName = storageRef.getBucket();
         String location = "gs://" + bucketName + "/" + folder + "/";

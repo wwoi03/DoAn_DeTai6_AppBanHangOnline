@@ -1,6 +1,13 @@
 package com.example.doan_detai6_appbanhangonline.Model;
 
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
+
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Product implements Serializable {
     String id;
@@ -23,6 +30,9 @@ public class Product implements Serializable {
         this.imageProduct = imageProduct;
         this.idSupplier = idSupplier;
         this.idCategory = idCategory;
+    }
+
+    public Product() {
     }
 
     public String getId() {
@@ -95,5 +105,34 @@ public class Product implements Serializable {
 
     public void setIdCategory(String idCategory) {
         this.idCategory = idCategory;
+    }
+
+    public void loadName(TextView textView) {
+        textView.setText(getName());
+    }
+    public void loadImage(ImageView imageView) {
+        FirebaseStorageAuth.loadImage("Products", getImageProduct(), imageView);
+    }
+
+    public void loadPrice(TextView textView) {
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+        numberFormat.setMinimumFractionDigits(0);
+
+        String priceString = "đ" + numberFormat.format(getPrice());
+
+        textView.setText(priceString);
+    }
+
+    public void loadSold(TextView textView) {
+        String soldString = "đã bán ";
+        if (getSold() < 1000)
+            soldString += getSold();
+        else
+            soldString += (getSold() / 1000) + "k";
+        textView.setText(soldString);
+    }
+
+    public void loadDescription(TextView textView) {
+        textView.setText(getDescription());
     }
 }

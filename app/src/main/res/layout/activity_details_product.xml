@@ -1,408 +1,390 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color">
+    android:background="@color/bg_color"
+    android:orientation="vertical">
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <!--layout chung-->
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-            <!--layout chua anh va ten, gia sp, danh gia-->
+            android:scrollbars="none">
+            <!--layout chung-->
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <!--Danh slide luot luot ne-->
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/imgSlider"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:background="@color/purple_500"
-                    app:iss_auto_cycle="false"
-                    app:iss_delay="1000"
-                    app:iss_period="1000">
-                </com.denzcoskun.imageslider.ImageSlider>
-
+                <!--layout chua anh va ten, gia sp, danh gia-->
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="16dp">
+                    android:background="@color/white"
+                    android:orientation="vertical">
 
-                    <!-- Tieu de san pham-->
-                    <TextView
-                        android:id="@+id/tvNameProduct"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quần ống rộng hàn quốc"
-                        android:textSize="18sp"
-                        android:textColor="@color/black_color">
-                    </TextView>
-
-                    <!--Gia sp-->
-                    <TextView
-                        android:id="@+id/tvPriceProduct"
+                    <!--Danh slide luot luot ne-->
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/imgSlider"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="đ180.000"
-                        android:textSize="18sp"
-                        android:textColor="@color/primary_color">
-                    </TextView>
+                        android:layout_height="300dp"
+                        android:background="@color/light_black_color"
+                        app:iss_auto_cycle="false"
+                        app:iss_delay="1000"
+                        app:iss_period="1000"></com.denzcoskun.imageslider.ImageSlider>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:gravity="center_vertical">
-
-                       <!-- <RatingBar
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:rating="4.5"
-                            android:maxHeight="50dp">
-                        </RatingBar>-->
-
-                        <TextView
-                            android:id="@+id/tvSold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="| Đã bán 789"
-                            android:textSize="16sp">
-                        </TextView>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/baseline_favorite_24"
-                            android:layout_alignParentEnd="true"
-                            app:tint="@color/favorite_color">
-                        </ImageView>
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Tieu de cam ket chinh hang, mien phi-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp"
-                android:padding="8dp"
-                android:background="@color/white"
-                android:layout_gravity="center">
-
-                <!-- Mien phi tra hang-->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginStart="8dp">
-                    <ImageView
-                        android:id="@+id/ivFreeReturn"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/baseline_360_24"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="8dp">
-                    </ImageView>
-
-                    <TextView
-                        android:id="@+id/tvFreeReturn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Miễn phí trả hàng"
-                        android:textSize="12sp"
-                        android:layout_gravity="center"/>
-                </LinearLayout>
-
-                <!-- Cam ket chinh han -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="15dp">
-
-                    <ImageView
-                        android:id="@+id/ivAuth"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/baseline_bookmark_added_24"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="8dp">
-                    </ImageView>
-
-                    <TextView
-                        android:id="@+id/tvAuth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chính hãng 100%"
-                        android:textSize="12sp"
-                        android:layout_gravity="center">
-                    </TextView>
-                </LinearLayout>
-
-                <!-- Giao hang mien phi -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:id="@+id/ivFreeDelivery"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/baseline_local_shipping_24"
-                        android:tint="@color/primary_color"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="8dp">
-                    </ImageView>
-
-                    <TextView
-                        android:id="@+id/tvFreeDelivery"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Giao miễn phí"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!--Layout Cac san pham tuong tu-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
-
-                    <!--TextView San pham tuong tu-->
-                    <TextView
-                        android:id="@+id/tvSimilarProduct"
-                        android:layout_width="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="Các sản phẩm tương tự"
-                        android:textSize="16sp"
-                        android:textColor="@color/black_color">
-                    </TextView>
-
-                    <!--TextView Xem tat ca  -->
                     <LinearLayout
-                        android:id="@+id/llSeeAll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center">
+                        android:layout_margin="16dp"
+                        android:orientation="vertical">
 
+                        <!-- Tieu de san pham-->
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="Xem tất cả"
-                            android:textSize="16sp"
-                            android:textColor="@color/primary_color">
-                        </TextView>
-
-                        <ImageView
+                            android:id="@+id/tvNameProduct"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/baseline_keyboard_arrow_right_24">
-                        </ImageView>
+                            android:text="Quần ống rộng hàn quốc"
+                            android:textColor="@color/black_color"
+                            android:textSize="18sp"></TextView>
+
+                        <!--Gia sp-->
+                        <TextView
+                            android:id="@+id/tvPriceProduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="đ180.000"
+                            android:textColor="@color/primary_color"
+                            android:textSize="18sp"></TextView>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center_vertical">
+
+                             <!--<RatingBar
+                                 android:layout_width="wrap_content"
+                                 android:layout_height="wrap_content"
+                                 android:rating="4.5"
+                                 android:maxHeight="50dp">
+                             </RatingBar>-->
+
+                            <TextView
+                                android:id="@+id/tvSold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="| Đã bán 789"
+                                android:textSize="16sp"></TextView>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/baseline_favorite_24"
+                                app:tint="@color/favorite_color"></ImageView>
+                        </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- RecyclerView -->
-                <!--Layout chua hinh va thong tin san pham tuong tu-->
+                <!-- Tieu de cam ket chinh hang, mien phi-->
                 <LinearLayout
-                    android:id="@+id/llSimilarProduct"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                    <!-- CardView Thong tin san pham-->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cvInfoProduct"
-                        android:layout_width="100dp"
-                        android:layout_height="150dp"
-                        android:layout_margin="8dp">
+                    <!-- Mien phi tra hang-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal">
 
-                        <!-- Layout Thong tin san pham-->
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:id="@+id/ivFreeReturn"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/baseline_360_24"></ImageView>
+
+                        <TextView
+                            android:id="@+id/tvFreeReturn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Miễn phí trả hàng"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Cam ket chinh han -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivAuth"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/baseline_bookmark_added_24"></ImageView>
+
+                        <TextView
+                            android:id="@+id/tvAuth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Chính hãng 100%"
+                            android:textSize="12sp"></TextView>
+                    </LinearLayout>
+
+                    <!-- Giao hang mien phi -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivFreeDelivery"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/baseline_local_shipping_24"
+                            app:tint="#FD2828"></ImageView>
+
+                        <TextView
+                            android:id="@+id/tvFreeDelivery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Giao miễn phí"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--Layout Cac san pham tuong tu-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="8dp"
+                        android:background="@color/white_color">
+
+                        <!--TextView San pham tuong tu-->
+                        <TextView
+                            android:id="@+id/tvSimilarProduct"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:layout_weight="1"
+                            android:text="Các sản phẩm tương tự"
+                            android:textColor="@color/black_color"
+                            android:textSize="16sp"></TextView>
+
+                        <!--TextView Xem tat ca  -->
+                        <LinearLayout
+                            android:id="@+id/llSeeAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="Xem tất cả"
+                                android:textColor="@color/primary_color"
+                                android:textSize="16sp"></TextView>
 
                             <ImageView
-                                android:id="@+id/ivInfoProduct"
-                                android:layout_width="100dp"
-                                android:layout_height="80dp"
-                                android:src="@drawable/quan_si"
-                                android:padding="2dp">
-                            </ImageView>
-
-                            <!-- Ten sp-->
-                            <TextView
-                                android:id="@+id/tvInfoNameProduct"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginBottom="8dp"
-                                android:text="But da quang"
-                                android:textColor="@color/black_color"/>
-
-
-
-                            <!--Gia san pham-->
-                            <TextView
-                                android:id="@+id/tvInfoPriceProduct"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="200k"
-                                android:textColor="@color/primary_color"
-                                />
-
-
-
-                            <!-- So luong da ban-->
-                            <TextView
-                                android:id="@+id/tvInfoQuantitySoldProduct"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Da ban 20"
-                                android:textColor="@color/black_color"
-                                android:textSize="10sp"/>
+                                android:layout_gravity="center"
+                                android:tint="@color/primary_color"
+                                android:src="@drawable/baseline_keyboard_arrow_right_24"></ImageView>
                         </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <!-- RecyclerView -->
+                    <LinearLayout
+                        android:background="@color/white_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="12dp"
+                        android:paddingBottom="16dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSimilarProducts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-
-            <!-- Layout chi tiet san pham-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white_color"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <TextView
-                    android:id="@+id/tvDetailProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Chi tiết sản phẩm"
-                    android:textSize="16sp"
-                    android:textColor="@color/black_color">
-                </TextView>
-
-                <!--Layout xem chi tiet (Bam vo lay out hien dialog)-->
-                <LinearLayout
-                    android:id="@+id/llSeeDetailProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <!-- Layout chi tiet san pham-->
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_color"
+                    android:orientation="horizontal"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp">
 
                     <TextView
-                        android:id="@+id/tvSeeDetailProduct"
+                        android:id="@+id/tvDetailProduct"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Xem chi tiết"
-                        android:textSize="16sp"
-                        android:textColor="@color/primary_color"
-                        android:gravity="center_vertical">
-                    </TextView>
+                        android:layout_weight="1"
+                        android:text="Chi tiết sản phẩm"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp"></TextView>
 
-                    <ImageView
+                    &lt;!&ndash;Layout xem chi tiet (Bam vo lay out hien dialog)&ndash;&gt;
+                    <LinearLayout
+                        android:id="@+id/llSeeDetailProduct"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24">
-                    </ImageView>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvSeeDetailProduct"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Xem chi tiết"
+                            android:textColor="@color/primary_color"
+                            android:textSize="16sp"></TextView>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:src="@drawable/baseline_keyboard_arrow_right_24"></ImageView>
+                    </LinearLayout>
+                </LinearLayout>-->
+
+                <!-- Mo ta san pham-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/white_color"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp">
+
+                    <!--Tieu de nen khong can id-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Mô tả sản phẩm"
+                        android:textColor="@color/black_color"
+                        android:textSize="16sp"></TextView>
+
+                    <!--TextView mo ta-->
+                    <TextView
+                        android:id="@+id/tvDescriptionProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bla blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        android:textSize="16sp"></TextView>
                 </LinearLayout>
-            </LinearLayout>
 
-            <!-- Mo ta san pham-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="2dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:background="@color/white_color">
-                <!--Tieu de nen khong can id-->
-                <TextView
-                    android:layout_width="wrap_content"
+                <!--Commentttttttttttttttttt-->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Mô tả sản phẩm"
-                    android:textSize="16sp"
-                    android:textColor="@color/black_color"
-                    android:layout_marginBottom="8dp">
-                </TextView>
-
-                <!--TextView mo ta-->
-                <TextView
-                    android:id="@+id/tvDescriptionProduct"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:text="Bla blaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
-                </TextView>
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
+    <!-- Bottom thêm - mua -->
+    <LinearLayout
+        android:paddingTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
 
+        <!-- Thêm sản phẩm vào giỏ hàng -->
+        <LinearLayout
+            android:id="@+id/llAddCart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#26AB9A"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical">
 
-            <!--Commentttttttttttttttttt-->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:src="@drawable/baseline_add_shopping_cart_24"
+                app:tint="@color/white_color">
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thêm vào giỏ hàng"
+                android:textColor="@color/white_color">
+            </TextView>
         </LinearLayout>
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Mua ngay -->
+        <LinearLayout
+            android:id="@+id/llBuyNow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/primary_color"
+            android:layout_weight="3"
+            android:gravity="center_horizontal|center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mua ngay"
+                android:textSize="16sp"
+                android:textColor="@color/white_color">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

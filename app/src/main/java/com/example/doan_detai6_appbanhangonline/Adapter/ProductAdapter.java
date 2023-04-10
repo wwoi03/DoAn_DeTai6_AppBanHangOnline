@@ -1,8 +1,5 @@
 package com.example.doan_detai6_appbanhangonline.Adapter;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageExtend;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.example.doan_detai6_appbanhangonline.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductVH> {
-    FirebaseStorageExtend firebaseStorageExtend = new FirebaseStorageExtend();
     ArrayList<Product> products;
     Listener listener;
 
@@ -49,23 +40,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         Product product = products.get(position);
 
-        // Tên sản phẩm
-        holder.tvNameProduct.setText(product.getName());
-
-        // Ảnh sản phẩm
-        firebaseStorageExtend.loadImage("Products", product.getImageProduct(), holder.ivProduct);
-
-        // Giá sản phẩm
-        String price = "đ" + numberFormat.format(product.getPrice());
-        holder.tvPrice.setText(price);
-
-        // Đã bán
-        String sold = "đã bán ";
-        if (product.getSold() < 1000)
-            sold += product.getSold();
-        else
-            sold += (product.getSold() / 1000) + "k";
-        holder.tvSold.setText(sold);
+        product.loadImage(holder.ivProduct);
+        product.loadName(holder.tvNameProduct);
+        product.loadPrice(holder.tvPrice);
+        product.loadSold(holder.tvSold);
 
         initListener(holder, product, product.getId(), position);
     }

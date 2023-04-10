@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnuInsertCart"
+        android:title="Thêm giỏ hàng"
+        android:icon="@drawable/icons8_shopping_cart_24">
+    </item>
+
+    <item
+        android:id="@+id/mnuBuy"
+        android:title="Mua Ngay">
+    </item>
+</menu>

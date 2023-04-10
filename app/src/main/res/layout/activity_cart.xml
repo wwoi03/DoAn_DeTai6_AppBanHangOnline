@@ -5,14 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CartActivity">
+    tools:context=".CartActivity"
+    android:background="@color/bg_color">
 
     <!-- recyclerView -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCart"
+        android:id="@+id/rvCarts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,52 +21,60 @@
 
     <!-- Thanh toán -->
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/relativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/light_border"
+        android:paddingTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/light_border">
+        app:layout_constraintStart_toStartOf="parent">
 
-        <!-- button chọn tất cả -->
-        <CheckBox
-            android:id="@+id/cbChooseAll"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
-        </CheckBox>
+            android:background="@color/white_color">
 
-        <!-- Mua hàng -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="center_vertical"
-            android:layout_alignParentEnd="true">
-
-            <!-- Tổng tiền -->
-            <TextView
-                android:id="@+id/tvTotal"
+            <!-- button chọn tất cả -->
+            <CheckBox
+                android:id="@+id/cbChooseAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="đ9.000"
-                android:textColor="@color/primary_color"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:layout_margin="16dp">
-            </TextView>
+                android:layout_centerVertical="true">
+            </CheckBox>
 
-            <!-- Button mua hàng -->
-            <Button
-                android:id="@+id/btBuy"
+            <!-- Mua hàng -->
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="55dp"
-                android:text="Mua hàng (0)"
-                android:textStyle="bold"
-                android:background="@color/primary_color"
-                android:layout_margin="0dp">
-            </Button>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:gravity="center_vertical"
+                android:layout_alignParentEnd="true">
+
+                <!-- Tổng tiền -->
+                <TextView
+                    android:id="@+id/tvTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="đ0"
+                    android:textColor="@color/primary_color"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:layout_margin="16dp">
+                </TextView>
+
+                <!-- Button mua hàng -->
+                <Button
+                    android:id="@+id/btBuy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:text="Mua hàng (0)"
+                    android:textStyle="bold"
+                    android:background="@color/primary_color"
+                    android:layout_margin="0dp">
+                </Button>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

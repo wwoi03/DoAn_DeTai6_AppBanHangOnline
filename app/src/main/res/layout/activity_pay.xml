@@ -100,181 +100,11 @@
                 </LinearLayout>
 
                 <!-- RecyclerView: Nhà Cung cấp -> Tổng sản phẩm -->
-                <!-- Nhà cung cấp -->
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBuyProducts"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white_color"
-                    android:gravity="center_vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/icons8_shop_64"
-                        android:layout_marginEnd="12dp">
-                    </ImageView>
-
-                    <!-- Tên nhà cung cấp -->
-                    <TextView
-                        android:id="@+id/tvNameSupplier"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tên nhà cung cấp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black_color"
-                        android:textSize="18sp">
-                    </TextView>
-                </LinearLayout>
-
-                <!-- Thông tin sản phẩm -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:background="@drawable/border_bottom">
-
-                    <!-- Hình sản phẩm -->
-                    <ImageView
-                        android:id="@+id/ivProduct"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@drawable/quan_si"
-                        android:padding="1dp"
-                        android:background="@drawable/light_border">
-                    </ImageView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_marginStart="16dp">
-
-                        <!-- Tên sản phẩm -->
-                        <TextView
-                            android:id="@+id/tvNameProduct"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tên sản phẩm"
-                            android:textColor="@color/black_color"
-                            android:textSize="16sp">
-                        </TextView>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <!-- Giá sản phẩm -->
-                            <TextView
-                                android:id="@+id/tvPrice"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_alignParentBottom="true"
-                                android:text="đ9.000">
-                            </TextView>
-
-                            <!-- Số lượng -->
-                            <TextView
-                                android:id="@+id/tvQuantity"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:text="x1">
-                            </TextView>
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Vận chuyển -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="3dp"
-                    android:background="@drawable/border_bottom">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#E9EFEF">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Phương thức vận chuyển"
-                            android:textColor="#2E998C"
-                            android:textSize="16sp"
-                            android:paddingBottom="12dp"
-                            android:textStyle="bold"
-                            android:background="@drawable/border_bottom"
-                            android:layout_marginBottom="12dp">
-                        </TextView>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/textView1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nhanh"
-                                android:textSize="16sp"
-                                android:textColor="@color/black_color">
-                            </TextView>
-
-                            <TextView
-                                android:layout_below="@+id/textView1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nhận hàng sau 7 ngày đặt"
-                                android:textSize="16sp">
-                            </TextView>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:text="đ30.000"
-                                android:textSize="16sp">
-                            </TextView>
-                        </RelativeLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Tổng sản phẩm -->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@color/white_color">
-
-                    <!-- Số lượng sản phẩm -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tổng số tiền (1 sản phẩm):"
-                        android:textSize="16sp"
-                        android:textColor="@color/black_color">
-                    </TextView>
-
-                    <!-- Tổng tiền-->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:text="đ9.000"
-                        android:textColor="@color/primary_color"
-                        android:textStyle="bold"
-                        android:textSize="16sp">
-                    </TextView>
-                </RelativeLayout>
+                    android:layout_height="wrap_content">
+                </androidx.recyclerview.widget.RecyclerView>
 
                 <!-- Phương thức thanh toán -->
                 <LinearLayout
@@ -386,7 +216,7 @@
                             android:id="@+id/tvTotalPriceShip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="đ30.000"
+                            android:text="đ0"
                             android:textSize="16sp">
                         </TextView>
                     </LinearLayout>
