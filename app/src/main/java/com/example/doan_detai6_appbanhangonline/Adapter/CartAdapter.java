@@ -1,5 +1,8 @@
 package com.example.doan_detai6_appbanhangonline.Adapter;
 
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,11 +91,32 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
             }
         });
 
+        // xử lý khi nhập số lượng trong etQuantity
+        holder.etQuantity.addTextChangedListener(new TextWatcher() {
+            @Override
+            // gọi trước khi text thay đổi
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            // gọi trong khi text thay đổi
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            // gọi sau khi text thay đổi
+            public void afterTextChanged(Editable s) {
+                listener.setOnTextChangedListener(cart, position, holder.etQuantity);
+            }
+        });
+
         // xử lý khi bấm vào nút checkbox
         holder.cbChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.setOnClickCheckboxListener(cart, cart.getProduct(), position, holder.cbChoose.isChecked());
+                listener.setOnClickCheckboxListener(cart, position, holder.cbChoose.isChecked());
             }
         });
     }
@@ -121,6 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
         void setOnClickProductListener(Product product, String id);
         void setOnClickBtDecreaseListener(Cart cart, int pos, EditText etQuantity);
         void setOnClickBtIncreaseListener(Cart cart, int pos, EditText etQuantity);
-        void setOnClickCheckboxListener(Cart cart, Product product, int pos, boolean isChecked);
+        void setOnTextChangedListener(Cart cart, int pos, EditText etQuantity);
+        void setOnClickCheckboxListener(Cart cart, int pos, boolean isChecked);
     }
 }

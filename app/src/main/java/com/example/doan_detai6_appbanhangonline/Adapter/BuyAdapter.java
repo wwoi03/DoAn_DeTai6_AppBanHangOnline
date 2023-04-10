@@ -1,8 +1,10 @@
 package com.example.doan_detai6_appbanhangonline.Adapter;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +38,7 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyVH> {
     public void onBindViewHolder(@NonNull BuyVH holder, int position) {
         Cart cart = carts.get(position);
 
+        cart.getProduct().loadImage(holder.ivProduct);
         cart.getProduct().loadName(holder.tvNameProduct);
         cart.getProduct().loadPrice(holder.tvPrice);
         cart.loadQuantity(holder.tvQuantity);
@@ -45,17 +48,19 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyVH> {
 
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
         numberFormat.setMinimumFractionDigits(0);
-        String totalPrice = "đ" + numberFormat.format(cart.getQuantity() * cart.getProduct().getPrice());
-        holder.tvTotalPrice.setText(totalPrice);
+        double totalPrice = cart.getTotalPrice();
+        String totalPriceString = "đ" + numberFormat.format(totalPrice);
+        holder.tvTotalPrice.setText(totalPriceString);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return carts.size();
     }
 
     class BuyVH extends RecyclerView.ViewHolder {
         TextView tvNameSupplier, tvNameProduct, tvPrice, tvQuantity, tvTotalProduct, tvTotalPrice;
+        ImageView ivProduct;
 
         public BuyVH(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +71,7 @@ public class BuyAdapter extends RecyclerView.Adapter<BuyAdapter.BuyVH> {
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             tvTotalProduct = itemView.findViewById(R.id.tvTotalProduct);
             tvTotalPrice = itemView.findViewById(R.id.tvTotalPrice);
+            ivProduct = itemView.findViewById(R.id.ivProduct);
         }
     }
 

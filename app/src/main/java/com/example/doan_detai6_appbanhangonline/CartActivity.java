@@ -1,18 +1,29 @@
 package com.example.doan_detai6_appbanhangonline;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.doan_detai6_appbanhangonline.Adapter.CartAdapter;
 import com.example.doan_detai6_appbanhangonline.Adapter.SimilarProductAdapter;
+import com.example.doan_detai6_appbanhangonline.Extend.Config;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
 import com.example.doan_detai6_appbanhangonline.Model.Cart;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
@@ -33,22 +44,32 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
     ArrayList<Cart> carts;
     ArrayList<Product> products;
     ArrayList<Cart> buyCarts;
-    SharedPreferences sharedPreferences;
-    String fileName = "config";
+    CheckBox cbChooseAll;
+    TextView tvTotalPrice;
+    Button btBuy;
+    Config config;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        sharedPreferences = getSharedPreferences(fileName, MODE_PRIVATE);
+        config = new Config(CartActivity.this);
 
         initUI();
         initData();
         initListener();
-        loadProductsAll();
-        loadCart();
+        getCarts();
+    }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void settingActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
+        actionBar.setTitle("Giỏ hàng (" + cartAdapter.getItemCount() + ")");
+        Spannable text = new SpannableString(actionBar.getTitle());
+        text.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        actionBar.setTitle(text);
     }
 
     public boolean onSupportNavigateUp() {
@@ -59,17 +80,28 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
     // ánh xạ view
     private void initUI() {
         rvCarts = findViewById(R.id.rvCarts);
+        cbChooseAll = findViewById(R.id.cbChooseAll);
+        tvTotalPrice = findViewById(R.id.tvTotalPrice);
+        btBuy = findViewById(R.id.btBuy);
     }
 
     // xử lý sự kiện
     private void initListener() {
-
+        // xử lý khi bấm vào mua
+        btBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CartActivity.this, PayActivity.class);
+                intent.putExtra("buyCarts", buyCarts);
+                startActivity(intent);
+            }
+        });
     }
 
     // khởi tạo
     private void initData() {
         // product
-        products = new ArrayList<>();
+        products = FirebaseFirestoreAuth.products;
 
         // buyCart
         buyCarts = new ArrayList<>();
@@ -82,14 +114,64 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         rvCarts.setAdapter(cartAdapter);
     }
 
-    private void loadCart() {
-        FirebaseFirestoreAuth.db.collection("Cart").whereEqualTo("IdAccount", sharedPreferences.getString("id", ""))
+    @Override
+    // xử lý khi bấm vào một sản phẩm bất kỳ
+    public void setOnClickProductListener(Product product, String id) {
+        Intent intent = new Intent(this, DetailsProductActivity.class);
+        intent.putExtra("detailsProduct", product);
+        intent.putExtra("idProduct", id);
+        /*launcher.launch(intent);*/
+        startActivity(intent);
+    }
+
+    @Override
+    // xử lý ấn vào nút giảm số lượng
+    public void setOnClickBtDecreaseListener(Cart cart, int pos, EditText etQuantity) {
+        int quantity = cart.getQuantity();
+        if (quantity > 1) {
+            quantity--;
+        }
+        cart.setQuantity(quantity);
+        FirebaseFirestoreAuth.updateCart(cart, quantity);
+        cart.loadQuantity(etQuantity);
+    }
+
+    @Override
+    // xử lý ấn vào nút tăng số lượng
+    public void setOnClickBtIncreaseListener(Cart cart, int pos, EditText etQuantity) {
+        int quantity = cart.getQuantity();
+        quantity++;
+        cart.setQuantity(quantity);
+        FirebaseFirestoreAuth.updateCart(cart, quantity);
+        cart.loadQuantity(etQuantity);
+    }
+
+    @Override
+    // xử lý khi thay đổi thẻ EditText
+    public void setOnTextChangedListener(Cart cart, int pos, EditText etQuantity) {
+        int quantity = Integer.parseInt(etQuantity.getText().toString().equals("") ? "1" : etQuantity.getText().toString());
+        cart.setQuantity(quantity);
+        FirebaseFirestoreAuth.updateCart(cart, quantity);
+    }
+
+    @Override
+    // xử lý tích checkbox sản phẩm
+    public void setOnClickCheckboxListener(Cart cart, int pos, boolean isChecked) {
+        if (isChecked == true) {
+            buyCarts.add(cart);
+        } else {
+            buyCarts.remove(pos);
+        }
+    }
+
+    // lấy dữ liệu từ giỏ hàng
+    public void getCarts() {
+        FirebaseFirestoreAuth.db.collection("Cart").whereEqualTo("IdAccount", config.getIdAccount())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d("ABC", "OK");
                             String id = document.getId();
                             String idAccount = document.get("IdAccount").toString();
                             String idProduct = document.get("IdProduct").toString();
@@ -108,81 +190,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
                             carts.add(cart);
                         }
                         cartAdapter.notifyDataSetChanged();
-                    }
-                });
-    }
-
-    private void loadProductsAll() {
-        FirebaseFirestoreAuth.db.collection("Product")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String name = document.get("Name").toString();
-                            double price = document.get("Price", Double.class);
-                            int sold = document.get("Sold", Integer.class);
-                            String description = document.get("Description").toString();
-                            String updateDay = document.get("UpdateDay").toString(); // Ngày cập nhật
-                            String imageProduct = document.get("ImageProduct").toString();
-                            String idSupplier = document.get("IdSupplier").toString();
-                            String idCategory = document.get("IdCategory").toString();
-                            Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
-                            products.add(product);
-                        }
-                    }
-                });
-    }
-
-    @Override
-    public void setOnClickProductListener(Product product, String id) {
-        Intent intent = new Intent(this, DetailsProductActivity.class);
-        intent.putExtra("detailsProduct", product);
-        intent.putExtra("idProduct", id);
-        /*launcher.launch(intent);*/
-        startActivity(intent);
-    }
-
-    @Override
-    public void setOnClickBtDecreaseListener(Cart cart, int pos, EditText etQuantity) {
-        int quantity = cart.getQuantity();
-        if (quantity > 1) {
-            quantity--;
-        }
-        cart.setQuantity(quantity);
-        updateCart(cart, quantity);
-        cart.loadQuantity(etQuantity);
-    }
-
-    @Override
-    public void setOnClickBtIncreaseListener(Cart cart, int pos, EditText etQuantity) {
-        int quantity = cart.getQuantity();
-        quantity++;
-        cart.setQuantity(quantity);
-        updateCart(cart, quantity);
-        cart.loadQuantity(etQuantity);
-    }
-
-    @Override
-    public void setOnClickCheckboxListener(Cart cart, Product product, int pos, boolean isChecked) {
-        if (isChecked == true) {
-
-        }
-    }
-
-    public void updateCart(Cart cart, int quantity) {
-        Map<String, Object> newCart = new HashMap<>();
-        newCart.put("IdAccount", cart.getIdAccount());
-        newCart.put("IdProduct", cart.getIdProduct());
-        newCart.put("UpdateDay", cart.getUpdateDay());
-        newCart.put("Quantity", quantity);
-        FirebaseFirestoreAuth.db.collection("Cart").document(cart.getId().trim())
-                .set(newCart)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
+                        settingActionBar();
                     }
                 });
     }

@@ -14,9 +14,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class Cart {
+public class Cart implements Serializable {
     String id;
     String idAccount;
     String idProduct;
@@ -68,10 +71,6 @@ public class Cart {
         return updateDay;
     }
 
-    public void loadQuantity(TextView textView) {
-        textView.setText(String.valueOf(getQuantity()));
-    }
-
     public void setUpdateDay(String updateDay) {
         this.updateDay = updateDay;
     }
@@ -84,27 +83,11 @@ public class Cart {
         this.product = product;
     }
 
-    public Product loadProduct() {
-        ArrayList<Product> products = new ArrayList<>();
-        FirebaseFirestoreAuth.db.collection("Product").document(getIdProduct().trim())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Log.d("ABC", "OK");
-                        String id = documentSnapshot.getId();
-                        String name = documentSnapshot.getString("Name").toString();
-                        double price = 1;
-                        int sold = 1;
-                        String description = documentSnapshot.getString("Description");
-                        String updateDay = documentSnapshot.getString("UpdateDay"); // Ngày cập nhật
-                        String imageProduct = documentSnapshot.getString("ImageProduct");
-                        String idSupplier = documentSnapshot.getString("IdSupplier");
-                        String idCategory = documentSnapshot.getString("IdCategory");
-                        Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
-                        products.add(product);
-                    }
-                });
-        return products.get(0);
+    public void loadQuantity(TextView textView) {
+        textView.setText(String.valueOf(getQuantity()));
+    }
+
+    public double getTotalPrice() {
+        return quantity * product.getPrice();
     }
 }

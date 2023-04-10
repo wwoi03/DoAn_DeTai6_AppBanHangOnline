@@ -6,13 +6,10 @@ public class DeliveryAddress {
     String name;
     String phone;
     String address;
+    int role;
 
-    public DeliveryAddress(String id, String idAccount, String name, String phone, String address) {
-        this.id = id;
-        this.idAccount = idAccount;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
+    public DeliveryAddress() {
+
     }
 
     public String getId() {
@@ -53,5 +50,22 @@ public class DeliveryAddress {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public DeliveryAddress(String id, String idAccount, String name, String phone, String address, int role) {
+        this.id = id;
+        this.idAccount = idAccount;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.role = role;
     }
 }

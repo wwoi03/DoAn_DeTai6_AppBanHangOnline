@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doan_detai6_appbanhangonline.Extend.Config;
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -52,8 +53,9 @@ public class SignInActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (sharedPreferences != null) {
-            if (sharedPreferences.getString("email", "") != "")
+            if (sharedPreferences.getString("email", "") != "") {
                 mainActivity();
+            }
         }
     }
 

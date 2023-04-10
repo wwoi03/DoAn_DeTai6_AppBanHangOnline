@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 
 import com.example.doan_detai6_appbanhangonline.Adapter.CategoryAdapter;
 import com.example.doan_detai6_appbanhangonline.Adapter.ProductAdapter;
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
 import com.example.doan_detai6_appbanhangonline.Model.Category;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -126,7 +127,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
         initData();
 
         loadCategories(view);
-        loadProductsAll();
     }
 
     // ánh xạ view
@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
     // khởi tạo
     private void initData() {
         // product
-        products = new ArrayList<>();
+        products = FirebaseFirestoreAuth.products;
         productAdapter = new ProductAdapter(products, HomeFragment.this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rvProducts.setLayoutManager(gridLayoutManager);
