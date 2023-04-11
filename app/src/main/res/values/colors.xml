@@ -14,7 +14,7 @@
     <color name="white_color">#FFFFFFFF</color>
     <color name="line_color">#E6E6E6</color>
     <color name="light_black_color">#817E7E</color>
-    <color name="bg_color">#F6F6F6</color>
+    <color name="bg_color">#F5F5F5</color>
     <color name="star_color">#F2C618</color>
     <color name="favorite_color">#F70707</color>
 </resources>
