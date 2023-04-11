@@ -1,12 +1,17 @@
 package com.example.doan_detai6_appbanhangonline.Extend;
 
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.doan_detai6_appbanhangonline.DetailsProductActivity;
 import com.example.doan_detai6_appbanhangonline.Model.Cart;
 import com.example.doan_detai6_appbanhangonline.Model.DeliveryAddress;
+import com.example.doan_detai6_appbanhangonline.Model.Order;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +34,6 @@ public class FirebaseFirestoreAuth {
 
     public FirebaseFirestoreAuth(Config config) {
         this.config = config;
-        getProducts();
         getDeliveryAddresses();
     }
 
@@ -58,7 +62,8 @@ public class FirebaseFirestoreAuth {
 
     /* ------------------------------- PRODUCT ------------------------------- */
     // lấy dữ liệu từ Product
-    public static void getProducts() {
+    public static void getProducts(ArrayList<Product> list,RecyclerView.Adapter adapter) {
+        products.clear();
         db.collection("Product")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -76,10 +81,80 @@ public class FirebaseFirestoreAuth {
                             String idCategory = document.get("IdCategory").toString();
                             Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
                             products.add(product);
+                            list.add(product);
                         }
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }
+
+    // thêm product vào cart trên Firebase
+    public static void insertCart(Product productCart, Context context) {
+        Map<String, Object> newCart = new HashMap<>();
+        newCart.put("IdAccount", config.getIdAccount());
+        newCart.put("IdProduct", productCart.getId());
+        newCart.put("UpdateDay", "");
+        newCart.put("Quantity", 1);
+        FirebaseFirestoreAuth.db.collection("Cart").document()
+                .set(newCart)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    // Load sản phẩm theo danh mục (Product_category)
+    public static void getProductCategory(ArrayList<Product> list , String _idCategory, RecyclerView.Adapter adapter) {
+        db.collection("Product").whereEqualTo("IdCategory", _idCategory)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String name = document.get("Name").toString();
+                            double price = document.get("Price", Double.class);
+                            int sold = document.get("Sold", Integer.class);
+                            String description = document.get("Description").toString();
+                            String updateDay = document.get("UpdateDay").toString(); // Ngày cập nhật
+                            String imageProduct = document.get("ImageProduct").toString();
+                            String idSupplier = document.get("IdSupplier").toString();
+                            String idCategory = document.get("IdCategory").toString();
+                            Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
+                            list.add(product);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    // similar products
+    /*public static void loadSimilarProducts(ArrayList<Product> list, Product product, RecyclerView.Adapter adapter) {
+        db.collection("Product").whereEqualTo("IdCategory", product.getIdCategory().trim())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d("ABC", document.getId());
+                            String id = document.getId();
+                            String name = document.get("Name").toString();
+                            double price = document.get("Price", Double.class);
+                            int sold = document.get("Sold", Integer.class);
+                            String description = document.get("Description").toString();
+                            String updateDay = document.get("UpdateDay").toString();
+                            String imageProduct = document.get("ImageProduct").toString();
+                            String idSupplier = document.get("IdSupplier").toString();
+                            String idCategory = document.get("IdCategory").toString();
+                            Product similarProduct = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
+                            list.add(similarProduct);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }*/
 
     /* ------------------------------- CART ------------------------------- */
     // cập nhật cart
@@ -107,6 +182,38 @@ public class FirebaseFirestoreAuth {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
+                    }
+                });
+    }
+
+    // lấy dữ liệu từ giỏ hàng
+    public static void getCarts(ArrayList<Cart> list, RecyclerView.Adapter adapter) {
+        carts.clear();
+        db.collection("Cart").whereEqualTo("IdAccount", config.getIdAccount())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String idAccount = document.get("IdAccount").toString();
+                            String idProduct = document.get("IdProduct").toString();
+                            int quantity = document.get("Quantity", Integer.class);
+                            String updateDay = document.get("UpdateDay").toString();
+
+                            Product product = new Product();
+                            for (int i = 0; i < products.size(); i++) {
+                                if (idProduct.equals(products.get(i).getId())) {
+                                    product = products.get(i);
+                                    break;
+                                }
+                            }
+
+                            Cart cart = new Cart(id, idAccount, idProduct, quantity, updateDay, product);
+                            carts.add(cart);
+                            list.add(cart);
+                        }
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }
@@ -170,6 +277,43 @@ public class FirebaseFirestoreAuth {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
+                    }
+                });
+    }
+
+    // lấy các sản phẩm trong order
+    public static void getOrder(ArrayList<Order> list, int _status, RecyclerView.Adapter adapter) {
+        db.collection("Order").whereEqualTo("IdAccount", config.getIdAccount())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.get("Status", Integer.class) == _status) {
+                                String id = document.getId();
+                                String idProduct = document.get("IdProduct").toString();
+                                String idAccount = document.get("IdAccount").toString();
+                                String dateBuy = document.get("DateBuy").toString();
+                                String dateCancel = document.get("DateCancel").toString();
+                                int quantity = document.get("Quantity", Integer.class);
+                                double feeShipping = document.get("FeeShipping", Double.class);
+                                double total = document.get("Total", Double.class);
+                                int status = document.get("Status", Integer.class);
+                                String recipientPhone = document.get("RecipientPhone").toString();
+                                String recipientName = document.get("RecipientName").toString();
+                                String recipientAddress = document.get("RecipientAddress").toString();
+                                Product product = new Product();
+                                for (int i = 0; i < products.size(); i++) {
+                                    if (idProduct.equals(products.get(i).getId())) {
+                                        product = products.get(i);
+                                        break;
+                                    }
+                                }
+                                Order order = new Order(id, idProduct, idAccount, dateBuy, dateCancel, quantity, feeShipping, total, status, recipientPhone, recipientName, recipientAddress, product);
+                                list.add(order);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }

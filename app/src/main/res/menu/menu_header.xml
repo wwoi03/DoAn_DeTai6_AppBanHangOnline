@@ -5,12 +5,14 @@
         android:id="@+id/mnuSearch"
         android:title="Search"
         android:icon="@drawable/icons8_search_24"
+        android:iconTint="@color/primary_color"
         app:showAsAction="always">
     </item>
 
     <item
         android:id="@+id/mnuCart"
         android:title="Cart"
+        android:iconTint="@color/primary_color"
         android:icon="@drawable/icons8_shopping_cart_24"
         app:showAsAction="always">
     </item>

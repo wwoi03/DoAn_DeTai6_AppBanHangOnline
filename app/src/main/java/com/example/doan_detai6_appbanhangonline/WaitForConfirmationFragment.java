@@ -1,30 +1,32 @@
 package com.example.doan_detai6_appbanhangonline;
 
-import android.app.ActionBar;
-import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
+import com.example.doan_detai6_appbanhangonline.Adapter.CategoryAdapter;
+import com.example.doan_detai6_appbanhangonline.Adapter.OrderAdapter;
+import com.example.doan_detai6_appbanhangonline.Adapter.ProductAdapter;
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
+import com.example.doan_detai6_appbanhangonline.Model.Order;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UserFragment#newInstance} factory method to
+ * Use the {@link WaitForConfirmationFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserFragment extends Fragment {
+public class WaitForConfirmationFragment extends Fragment implements OrderAdapter.Listener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +37,7 @@ public class UserFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public UserFragment() {
+    public WaitForConfirmationFragment() {
         // Required empty public constructor
     }
 
@@ -45,17 +47,21 @@ public class UserFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserFragment.
+     * @return A new instance of fragment WaitForConfirmationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserFragment newInstance(String param1, String param2) {
-        UserFragment fragment = new UserFragment();
+    public static WaitForConfirmationFragment newInstance(String param1, String param2) {
+        WaitForConfirmationFragment fragment = new WaitForConfirmationFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
+
+    RecyclerView rvWCF;
+    OrderAdapter orderAdapter;
+    ArrayList<Order> orders;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,14 +72,11 @@ public class UserFragment extends Fragment {
         }
     }
 
-    LinearLayout llMyOrder, llAccountSetting;
-    ImageView ivAccount;
-    TextView tvUserName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        return inflater.inflate(R.layout.fragment_wait_for_confirmation, container, false);
     }
 
     @Override
@@ -81,38 +84,27 @@ public class UserFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initUI(view);
+        initData();
         initListener();
     }
 
     // ánh xạ view
     private void initUI(View view) {
-        llMyOrder = view.findViewById(R.id.llMyOrder);
-        llAccountSetting = view.findViewById(R.id.llAccountSetting);
-        ivAccount = view.findViewById(R.id.ivAccount);
-        tvUserName = view.findViewById(R.id.tvUserName);
+        rvWCF = view.findViewById(R.id.rvWCF);
     }
 
+    // khởi tạo
+    private void initData() {
+        orders = new ArrayList<>();
+        orderAdapter = new OrderAdapter(orders, WaitForConfirmationFragment.this);
+        FirebaseFirestoreAuth.getOrder(orders, 0, orderAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rvWCF.setLayoutManager(linearLayoutManager);
+        rvWCF.setAdapter(orderAdapter);
+    }
+
+    // xử lý sự kiện
     private void initListener() {
-        // xử lý khi bấm vào "Đơn hàng"
-        llMyOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), MyOrderActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // xử lý khi bấm "Thiết lập tài khoản"
-        llAccountSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AccountSettingsActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void loadInfoAccount() {
 
     }
 }

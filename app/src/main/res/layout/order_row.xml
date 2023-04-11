@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_marginTop="8dp">
+
+    <!-- Thông tin sản phẩm -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@color/white_color"
+        android:layout_marginBottom="2dp">
+
+        <!-- hình sản phẩm -->
+        <ImageView
+            android:id="@+id/ivProduct"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/product"
+            android:background="@drawable/light_border"
+            android:padding="1dp">
+        </ImageView>
+
+        <!-- Thông tin sản phẩm -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <!-- Tên sản phẩm -->
+            <TextView
+                android:id="@+id/tvNameProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bườm cài tóc chim hót vang bầu trời"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:textColor="@color/black_color"
+                android:layout_marginBottom="4dp">
+            </TextView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp">
+
+                <!-- Chưa thanh toán -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa thanh toán"
+                    android:layout_weight="1"
+                    android:textColor="@color/primary_color">
+                </TextView>
+
+                <!-- số lượng -->
+                <TextView
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="x1"
+                    android:textColor="@color/black_color"
+                    android:textSize="16sp">
+                </TextView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="đ15.000"
+                android:textColor="@color/primary_color"
+                android:textSize="16sp"
+                android:layout_gravity="right">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Tổng tiền -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white_color"
+        android:gravity="center_vertical">
+
+        <!-- số lượng -->
+        <TextView
+            android:id="@+id/tvQuantity2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 sản phẩm"
+            android:layout_weight="1">
+        </TextView>
+
+        <!-- icon -->
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icons8_favorites_shield_50"
+            android:layout_weight="1">
+        </ImageView>
+
+        <!-- tổng tiền -->
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="đ15.000"
+            android:gravity="end"
+            android:textColor="@color/primary_color"
+            android:textSize="16sp"
+            android:layout_weight="1">
+        </TextView>
+    </LinearLayout>
+
+    <!-- Tình trạng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white_color"
+        android:gravity="end">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="130dp"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:background="#C8C8C8"
+                android:textColor="@color/white_color"
+                android:text="Đang xử lý">
+            </TextView>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</LinearLayout>

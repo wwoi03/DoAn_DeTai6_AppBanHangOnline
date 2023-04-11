@@ -33,11 +33,11 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
     public void onBindViewHolder(@NonNull DeliveryAddressVH holder, int position) {
         DeliveryAddress deliveryAddress = deliveryAddresses.get(position);
 
-        holder.tvName.setText("Tên người nhân: " + deliveryAddress.getName());
+        holder.tvName.setText("Tên người nhận: " + deliveryAddress.getName());
         holder.tvPhone.setText("Số điện thoại: " + deliveryAddress.getPhone());
         holder.tvAddress.setText("Địa chỉ: " + deliveryAddress.getAddress());
         if (deliveryAddress.getRole() == 1)
-            holder.tvName.setVisibility(View.VISIBLE);
+            holder.tvDefault.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -9,7 +9,7 @@
     android:background="@color/bg_color">
 
     <LinearLayout
-        android:id="@+id/tvEditaccount"
+        android:id="@+id/llEditAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -36,8 +36,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tvAddress"
-        android:layout_below="@+id/tvEditaccount"
+        android:id="@+id/llAddress"
+        android:layout_below="@+id/llEditAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -64,8 +64,8 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/InterfaceSettings"
-        android:layout_below="@+id/tvAddress"
+        android:id="@+id/llInterfaceSetting"
+        android:layout_below="@+id/llAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

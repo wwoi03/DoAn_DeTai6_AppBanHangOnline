@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
 
         initUI(view);
         initData();
+        initListener();
 
         loadCategories(view);
     }
@@ -139,8 +140,9 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
     // khởi tạo
     private void initData() {
         // product
-        products = FirebaseFirestoreAuth.products;
+        products = new ArrayList<>();
         productAdapter = new ProductAdapter(products, HomeFragment.this);
+        FirebaseFirestoreAuth.getProducts(products, productAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rvProducts.setLayoutManager(gridLayoutManager);
         rvProducts.setAdapter(productAdapter);
@@ -160,7 +162,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
             @Override
             public void onClick(View v) {
                 products.clear();
-                loadProductsAll();
+                FirebaseFirestoreAuth.getProducts(products, productAdapter);
             }
         });
     }
@@ -185,62 +187,13 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
                 });
     }
 
-    // Load tất cả sản phẩm (Product_all)
-    private void loadProductsAll() {
-        db.collection("Product")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String name = document.get("Name").toString();
-                            double price = document.get("Price", Double.class);
-                            int sold = document.get("Sold", Integer.class);
-                            String description = document.get("Description").toString();
-                            String updateDay = document.get("UpdateDay").toString(); // Ngày cập nhật
-                            String imageProduct = document.get("ImageProduct").toString();
-                            String idSupplier = document.get("IdSupplier").toString();
-                            String idCategory = document.get("IdCategory").toString();
-                            Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
-                            products.add(product);
-                        }
-                        productAdapter.notifyDataSetChanged();
-                    }
-                });
-    }
 
-    // Load sản phẩm theo danh mục (Product_category)
-    private void loadProductCategory(String _idCategory) {
-        Query listProductCategory = db.collection("Product").whereEqualTo("IdCategory", _idCategory);
-        listProductCategory
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String name = document.get("Name").toString();
-                            double price = document.get("Price", Double.class);
-                            int sold = document.get("Sold", Integer.class);
-                            String description = document.get("Description").toString();
-                            String updateDay = document.get("UpdateDay").toString(); // Ngày cập nhật
-                            String imageProduct = document.get("ImageProduct").toString();
-                            String idSupplier = document.get("IdSupplier").toString();
-                            String idCategory = document.get("IdCategory").toString();
-                            Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
-                            products.add(product);
-                        }
-                        productAdapter.notifyDataSetChanged();
-                    }
-                });
-    }
 
     @Override
     // xử lý khi bấm vào một thể loại bất kỳ
     public void setOnClickItemCategoryListener(String id) {
         products.clear();
-        loadProductCategory(id);
+        FirebaseFirestoreAuth.getProductCategory(products, id, productAdapter);
     }
 
     @Override

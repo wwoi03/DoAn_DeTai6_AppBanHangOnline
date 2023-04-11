@@ -12,6 +12,7 @@ public class Config extends AppCompatActivity {
 
     public Config(Context context) {
         sharedPreferences = context.getSharedPreferences(fileName, context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     public SharedPreferences getSharedPreferences() {

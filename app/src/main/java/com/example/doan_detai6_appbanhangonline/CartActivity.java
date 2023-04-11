@@ -58,7 +58,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         initUI();
         initData();
         initListener();
-        getCarts();
+
     }
 
     private void settingActionBar() {
@@ -66,7 +66,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
-        actionBar.setTitle("Giỏ hàng (" + cartAdapter.getItemCount() + ")");
+        actionBar.setTitle("Giỏ hàng (" + FirebaseFirestoreAuth.carts.size() + ")");
         Spannable text = new SpannableString(actionBar.getTitle());
         text.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         actionBar.setTitle(text);
@@ -109,6 +109,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         // cart
         carts = new ArrayList<>();
         cartAdapter = new CartAdapter(carts, CartActivity.this);
+        FirebaseFirestoreAuth.getCarts(carts, cartAdapter);
+        settingActionBar();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false);
         rvCarts.setLayoutManager(linearLayoutManager);
         rvCarts.setAdapter(cartAdapter);
@@ -162,36 +164,5 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         } else {
             buyCarts.remove(pos);
         }
-    }
-
-    // lấy dữ liệu từ giỏ hàng
-    public void getCarts() {
-        FirebaseFirestoreAuth.db.collection("Cart").whereEqualTo("IdAccount", config.getIdAccount())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String idAccount = document.get("IdAccount").toString();
-                            String idProduct = document.get("IdProduct").toString();
-                            int quantity = document.get("Quantity", Integer.class);
-                            String updateDay = document.get("UpdateDay").toString();
-
-                            Product product = new Product();
-                            for (int i = 0; i < products.size(); i++) {
-                                if (idProduct.equals(products.get(i).getId())) {
-                                    product = products.get(i);
-                                    break;
-                                }
-                            }
-
-                            Cart cart = new Cart(id, idAccount, idProduct, quantity, updateDay, product);
-                            carts.add(cart);
-                        }
-                        cartAdapter.notifyDataSetChanged();
-                        settingActionBar();
-                    }
-                });
     }
 }

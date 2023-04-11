@@ -64,6 +64,7 @@ public class PayActivity extends AppCompatActivity implements BuyAdapter.Listene
 
         loadDetailsOrder();
         loadDeliveryAddress();
+
         settingActionBar();
     }
 

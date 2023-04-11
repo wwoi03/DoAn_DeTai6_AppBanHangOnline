@@ -71,7 +71,7 @@
                     android:layout_height="60dp"
                     android:text="Mua hàng (0)"
                     android:textStyle="bold"
-                    android:background="@color/primary_color"
+                    android:backgroundTint="@color/primary_color"
                     android:layout_margin="0dp">
                 </Button>
             </LinearLayout>

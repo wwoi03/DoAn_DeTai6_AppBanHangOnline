@@ -34,14 +34,27 @@
                     android:orientation="vertical">
 
                     <!--Danh slide luot luot ne-->
-                    <com.denzcoskun.imageslider.ImageSlider
+                    <!--<com.denzcoskun.imageslider.ImageSlider
                         android:id="@+id/imgSlider"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:background="@color/light_black_color"
                         app:iss_auto_cycle="false"
                         app:iss_delay="1000"
-                        app:iss_period="1000"></com.denzcoskun.imageslider.ImageSlider>
+                        app:iss_period="1000"></com.denzcoskun.imageslider.ImageSlider>-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@drawable/border_bottom"
+                        android:paddingBottom="2dp">
+
+                        <ImageView
+                            android:id="@+id/ivProduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop">
+                        </ImageView>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"

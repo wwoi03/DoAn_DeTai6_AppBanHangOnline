@@ -37,7 +37,7 @@
                     android:padding="16dp">
 
                     <!--image user-->
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <!--<de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/civAvt"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
@@ -45,7 +45,20 @@
                         android:src="@drawable/user"
                         app:civ_border_color="@color/black_color"
                         app:civ_border_width="1dp">
-                    </de.hdodenhof.circleimageview.CircleImageView>
+                    </de.hdodenhof.circleimageview.CircleImageView>-->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="60dp">
+
+                        <ImageView
+                            android:id="@+id/ivAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/user">
+                        </ImageView>
+                    </androidx.cardview.widget.CardView>
 
                     <!--Thong tin user-->
                     <LinearLayout

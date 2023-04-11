@@ -19,8 +19,6 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bnvMenu;
-    FrameLayout flContainer;
-
     HomeFragment homeFragment = new HomeFragment();
     NotificationFragment notificationFragment = new NotificationFragment();
     UserFragment userFragment = new UserFragment();

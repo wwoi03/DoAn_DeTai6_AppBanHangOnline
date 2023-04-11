@@ -21,8 +21,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     Listener listener;
 
     public ProductAdapter(ArrayList<Product> products, Listener listener) {
+        notifyDataSetChanged();
         this.products = products;
         this.listener = listener;
+        notifyDataSetChanged();
     }
 
     @NonNull

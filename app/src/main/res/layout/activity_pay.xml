@@ -318,8 +318,7 @@
                 android:id="@+id/btOrder"
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
-                style="?android:attr/borderlessButtonStyle"
-                android:background="@color/primary_color"
+                android:backgroundTint="@color/primary_color"
                 android:textStyle="bold"
                 android:text="Đặt hàng">
             </Button>

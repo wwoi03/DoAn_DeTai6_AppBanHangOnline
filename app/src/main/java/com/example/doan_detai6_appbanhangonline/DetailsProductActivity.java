@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
     SimilarProductAdapter similarProductAdapter;
     ArrayList<Product> similarProducts;
     TextView tvNameProduct, tvPriceProduct, tvSold, tvDescriptionProduct;
+    ImageView ivProduct;
     LinearLayout llAddCart, llBuyNow;
     Intent getDataIntent;
     Product product;
@@ -57,7 +59,6 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         db = FirebaseFirestore.getInstance();
 
         initUI();
-        loadSimilarProducts();
         initData();
         initListener();
 
@@ -76,6 +77,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         rvSimilarProducts = findViewById(R.id.rvSimilarProducts);
         tvNameProduct = findViewById(R.id.tvNameProduct);
         tvPriceProduct = findViewById(R.id.tvPriceProduct);
+        ivProduct = findViewById(R.id.ivProduct);
         tvSold = findViewById(R.id.tvSold);
         tvDescriptionProduct = findViewById(R.id.tvDescriptionProduct);
         llAddCart = findViewById(R.id.llAddCart);
@@ -88,7 +90,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         llAddCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertCart(product);
+                FirebaseFirestoreAuth.insertCart(product, DetailsProductActivity.this);
             }
         });
     }
@@ -98,26 +100,10 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         // Similar products
         similarProducts = new ArrayList<>();
         similarProductAdapter = new SimilarProductAdapter(similarProducts, DetailsProductActivity.this);
+        FirebaseFirestoreAuth.getProductCategory(similarProducts, product.getIdCategory(), similarProductAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DetailsProductActivity.this, LinearLayoutManager.HORIZONTAL, false);
         rvSimilarProducts.setLayoutManager(linearLayoutManager);
         rvSimilarProducts.setAdapter(similarProductAdapter);
-    }
-
-    // thêm product vào cart trên Firebase
-    private void insertCart(Product productCart) {
-        Map<String, Object> newCart = new HashMap<>();
-        newCart.put("IdAccount", sharedPreferences.getString("id", ""));
-        newCart.put("IdProduct", productCart.getId());
-        newCart.put("UpdateDay", "");
-        newCart.put("Quantity", 1);
-        FirebaseFirestoreAuth.db.collection("Cart").document()
-                .set(newCart)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(DetailsProductActivity.this, "Thêm sản phẩm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     // render giao diện sản phẩm
@@ -126,31 +112,6 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         product.loadPrice(tvPriceProduct);
         product.loadSold(tvSold);
         product.loadDescription(tvDescriptionProduct);
-    }
-
-    // similar products
-    private void loadSimilarProducts() {
-        db.collection("Product").whereEqualTo("IdCategory", product.getIdCategory().trim())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.d("ABC", document.getId());
-                            String id = document.getId();
-                            String name = document.get("Name").toString();
-                            double price = document.get("Price", Double.class);
-                            int sold = document.get("Sold", Integer.class);
-                            String description = document.get("Description").toString();
-                            String updateDay = document.get("UpdateDay").toString();
-                            String imageProduct = document.get("ImageProduct").toString();
-                            String idSupplier = document.get("IdSupplier").toString();
-                            String idCategory = document.get("IdCategory").toString();
-                            Product similarProduct = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
-                            similarProducts.add(similarProduct);
-                        }
-                        similarProductAdapter.notifyDataSetChanged();
-                    }
-                });
+        product.loadImage(ivProduct);
     }
 }
