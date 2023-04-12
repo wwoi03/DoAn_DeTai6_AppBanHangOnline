@@ -42,11 +42,24 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
         holder.tvQuantity2.setText(order.getQuantity() + " sản phẩm");
         order.loadTotal(holder.tvTotalPrice);
         order.loadStatus(holder.tvStatus);
+
+        initListener(holder, order, position);
     }
 
     @Override
     public int getItemCount() {
         return orders.size();
+    }
+
+    // xử lý sự kiện
+    private void initListener(OrderVH holder, Order order, int position) {
+        // xử lý khi bấn vào một đơn hàng bất kỳ
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnClickOrderListener(order, position);
+            }
+        });
     }
 
     class OrderVH extends RecyclerView.ViewHolder {
@@ -67,6 +80,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderVH> {
     }
 
     public interface Listener {
-
+        void setOnClickOrderListener(Order order, int pos);
     }
 }

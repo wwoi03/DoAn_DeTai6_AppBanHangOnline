@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 
-import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
+import com.example.doan_detai6_appbanhangonline.Model.Order;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -86,4 +87,10 @@ public class MyOrderActivity extends AppCompatActivity {
         transaction.replace(R.id.flMyOrder, fragment);
         transaction.commit();
     }
+
+    /*public void detailsOrder(Order order, ) {
+        Intent intent = new Intent(, DetailsOrderActivity.class);
+        intent.putExtra("detailsOrder", order);
+        startActivity(intent);
+    }*/
 }

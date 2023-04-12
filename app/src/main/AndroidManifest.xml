@@ -12,13 +12,16 @@
         android:theme="@style/Theme.DoAn_DeTai6_AppBanHangOnline"
         tools:targetApi="31">
         <activity
+            android:name=".DetailsOrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddressActivity"
             android:exported="false"
-            android:label="Địa chỉ của tôi"/>
+            android:label="Địa chỉ của tôi" />
         <activity
             android:name=".AccountSettingsActivity"
             android:exported="false"
-            android:label="Thiết lập tài khoản"/>
+            android:label="Thiết lập tài khoản" />
         <activity
             android:name=".MyOrderActivity"
             android:exported="false" />

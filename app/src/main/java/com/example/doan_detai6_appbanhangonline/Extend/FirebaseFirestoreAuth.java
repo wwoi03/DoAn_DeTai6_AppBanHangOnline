@@ -37,6 +37,15 @@ public class FirebaseFirestoreAuth {
         getDeliveryAddresses();
     }
 
+    public static String currentDay() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String cd = String.format("%02d", day) + "/" + String.format("%02d", month + 1) + "/" + year;
+        return cd;
+    }
+
     /* ------------------------------- DELIVERY ADDRESS ------------------------------- */
     // lấy dữ liệu địa chỉ người nhận
     public static void getDeliveryAddresses() {
@@ -221,11 +230,7 @@ public class FirebaseFirestoreAuth {
     /* ------------------------------- ORDER ------------------------------- */
     // Thêm order
     public static void insertOrder(Cart cart, DeliveryAddress deliveryAddress) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String dateBuy = String.format("%02d", day) + "/" + String.format("%02d", month + 1) + "/" + year;
+        String dateBuy = currentDay();
 
         Map<String, Object> newOrder = new HashMap<>();
         newOrder.put("IdProduct", cart.getProduct().getId());

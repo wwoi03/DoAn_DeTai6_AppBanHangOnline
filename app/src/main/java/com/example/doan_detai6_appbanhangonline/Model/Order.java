@@ -7,10 +7,11 @@ import android.widget.TextView;
 import com.example.doan_detai6_appbanhangonline.R;
 import com.google.firebase.database.collection.LLRBNode;
 
+import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public class Order {
+public class Order implements Serializable {
     String id;
     String idProduct;
     String idAccount;
@@ -147,6 +148,14 @@ public class Order {
 
     public void loadQuantity(TextView textView) {
         textView.setText("x" + getQuantity());
+    }
+
+    public  void loadRecipientAddress(TextView textView) {
+        textView.setText(getRecipientAddress());
+    }
+
+    public void loadDateBuy(TextView textView) {
+        textView.setText(getDateBuy());
     }
 
     public void loadTotal(TextView textView) {

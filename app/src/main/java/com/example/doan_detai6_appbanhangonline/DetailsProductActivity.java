@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doan_detai6_appbanhangonline.Adapter.SimilarProductAdapter;
+import com.example.doan_detai6_appbanhangonline.Extend.Config;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
+import com.example.doan_detai6_appbanhangonline.Model.Cart;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,8 +44,9 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
     Intent getDataIntent;
     Product product;
     String idProduct;
-    SharedPreferences sharedPreferences;
-    FirebaseFirestore db;
+    ArrayList<Cart> buyCarts;
+    Config config;
+
 
     // HÀM XỬ LÝ CHÍNH
     @Override
@@ -51,12 +54,11 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_product);
 
-        sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        config = new Config(DetailsProductActivity.this);
+
         getDataIntent = getIntent();
         product = (Product) getDataIntent.getSerializableExtra("detailsProduct");
         idProduct = (String) getDataIntent.getSerializableExtra("idProduct");
-
-        db = FirebaseFirestore.getInstance();
 
         initUI();
         initData();
@@ -91,6 +93,25 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
             @Override
             public void onClick(View v) {
                 FirebaseFirestoreAuth.insertCart(product, DetailsProductActivity.this);
+            }
+        });
+
+        // xử lý khi bấm vào nút "Mua ngay"
+        llBuyNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buyCarts = new ArrayList<>();
+                String id = "";
+                String idAccount = config.getIdAccount();
+                String idProduct = product.getId();
+                int quantity = 1;
+                String updateDay = FirebaseFirestoreAuth.currentDay();
+                Cart cart = new Cart(id, idAccount, idProduct, quantity, updateDay, product);
+                buyCarts.add(cart);
+
+                Intent intent = new Intent(DetailsProductActivity.this, PayActivity.class);
+                intent.putExtra("buyCarts", buyCarts);
+                startActivity(intent);
             }
         });
     }

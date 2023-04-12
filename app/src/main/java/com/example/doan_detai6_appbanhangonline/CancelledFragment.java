@@ -1,5 +1,6 @@
 package com.example.doan_detai6_appbanhangonline;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -103,5 +104,12 @@ public class CancelledFragment extends Fragment implements OrderAdapter.Listener
     // xử lý sự kiện
     private void initListener() {
 
+    }
+
+    @Override
+    public void setOnClickOrderListener(Order order, int pos) {
+        Intent intent = new Intent(getContext(), DetailsOrderActivity.class);
+        intent.putExtra("detailsOrder", order);
+        startActivity(intent);
     }
 }
