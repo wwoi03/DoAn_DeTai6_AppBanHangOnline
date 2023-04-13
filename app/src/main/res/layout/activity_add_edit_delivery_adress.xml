@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEditDeliveryAdressActivity"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <!-- Liên hệ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Liên hệ"
+            android:textSize="16sp">
+        </TextView>
+
+        <!-- Họ và tên -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:background="@color/white_color"
+            android:textColor="@color/black_color"
+            android:hint="Họ và tên"
+            android:layout_marginBottom="2dp">
+        </com.google.android.material.textfield.TextInputEditText>
+
+        <!-- Phone -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:background="@color/white_color"
+            android:textColor="@color/black_color"
+            android:hint="Số điện thoại"
+            android:layout_marginBottom="2dp">
+        </com.google.android.material.textfield.TextInputEditText>
+    </LinearLayout>
+
+    <!-- Địa chỉ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Địa chỉ"
+            android:textSize="16sp">
+        </TextView>
+
+        <!-- Địa chỉ -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:background="@color/white_color"
+            android:textColor="@color/black_color"
+            android:hint="Tên đường, Số nhà, Tỉnh/Thành phố"
+            android:layout_marginBottom="2dp">
+        </com.google.android.material.textfield.TextInputEditText>
+    </LinearLayout>
+
+    <!-- Cài đặt -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Cài đặt"
+            android:textSize="16sp">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@color/white_color">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Đặt làm địa chỉ mặt định"
+                android:textSize="16sp">
+            </TextView>
+
+            <Switch
+                android:id="@+id/swDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </Switch>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- nút -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="32dp">
+
+        <!-- xóa -->
+        <Button
+            android:id="@+id/btDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            android:backgroundTint="#ECECEC"
+            android:textColor="@color/black_color"
+            android:layout_marginEnd="50dp">
+        </Button>
+
+        <!-- hoàn thành -->
+        <Button
+            android:id="@+id/btSuccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoàn thành">
+        </Button>
+    </LinearLayout>
+</LinearLayout>

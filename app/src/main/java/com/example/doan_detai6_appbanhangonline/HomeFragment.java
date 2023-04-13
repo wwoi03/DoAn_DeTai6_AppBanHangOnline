@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
     ArrayList<Product> products;
     LinearLayout llCategoryAll;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ActivityResultLauncher<Intent> launcher =registerForActivityResult(
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
@@ -202,6 +202,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
         Intent intent = new Intent(getContext(), DetailsProductActivity.class);
         intent.putExtra("detailsProduct", product);
         intent.putExtra("idProduct", id);
-        launcher.launch(intent);
+        startActivity(intent);
     }
 }

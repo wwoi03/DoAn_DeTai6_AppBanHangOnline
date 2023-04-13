@@ -95,7 +95,7 @@ public class ConfirmedFragment extends Fragment implements OrderAdapter.Listener
     private void initData() {
         orders = new ArrayList<>();
         orderAdapter = new OrderAdapter(orders, ConfirmedFragment.this);
-        FirebaseFirestoreAuth.getOrder(orders, 1, orderAdapter);
+        FirebaseFirestoreAuth.getOrders(orders, 1, orderAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvConfirmed.setLayoutManager(linearLayoutManager);
         rvConfirmed.setAdapter(orderAdapter);

@@ -1,5 +1,9 @@
 package com.example.doan_detai6_appbanhangonline;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +17,9 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.doan_detai6_appbanhangonline.Model.Order;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,6 +30,22 @@ public class MyOrderActivity extends AppCompatActivity {
     WaitForConfirmationFragment waitForConfirmationFragment = new WaitForConfirmationFragment();
     ConfirmedFragment confirmedFragment = new ConfirmedFragment();
     CancelledFragment cancelledFragment = new CancelledFragment();
+    /*ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        if (result.getResultCode() == 111) {
+
+                        }
+                        if (result.getResultCode() == 222) {
+                            Log.d("ABC", "DSADS");
+                        }
+                    }
+                }
+            }
+    );*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +54,13 @@ public class MyOrderActivity extends AppCompatActivity {
 
         initUI();
         initListener();
+
+        String fragmentToShow = (String) getIntent().getSerializableExtra("fragment_to_show");
+        if (fragmentToShow != null && fragmentToShow.equals("CF")) {
+            loadFragment(cancelledFragment);
+            bnvMyOrder.setSelectedItemId(R.id.mnuCancelled);
+            Toast.makeText(this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
+        }
 
         settingActionBar();
     }
@@ -81,16 +110,10 @@ public class MyOrderActivity extends AppCompatActivity {
     }
 
     // Load Fragment
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         // giúp thế Fragment vào FrameLayout trên giao diện
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flMyOrder, fragment);
         transaction.commit();
     }
-
-    /*public void detailsOrder(Order order, ) {
-        Intent intent = new Intent(, DetailsOrderActivity.class);
-        intent.putExtra("detailsOrder", order);
-        startActivity(intent);
-    }*/
 }

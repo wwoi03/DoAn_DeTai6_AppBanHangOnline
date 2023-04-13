@@ -95,7 +95,7 @@ public class CancelledFragment extends Fragment implements OrderAdapter.Listener
     private void initData() {
         orders = new ArrayList<>();
         orderAdapter = new OrderAdapter(orders, CancelledFragment.this);
-        FirebaseFirestoreAuth.getOrder(orders, 2, orderAdapter);
+        FirebaseFirestoreAuth.getOrders(orders, 2, orderAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvCancel.setLayoutManager(linearLayoutManager);
         rvCancel.setAdapter(orderAdapter);

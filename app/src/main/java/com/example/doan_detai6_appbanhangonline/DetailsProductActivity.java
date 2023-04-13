@@ -1,5 +1,9 @@
 package com.example.doan_detai6_appbanhangonline;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +50,6 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
     String idProduct;
     ArrayList<Cart> buyCarts;
     Config config;
-
 
     // HÀM XỬ LÝ CHÍNH
     @Override

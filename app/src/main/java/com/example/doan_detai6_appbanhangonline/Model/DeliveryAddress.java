@@ -1,6 +1,8 @@
 package com.example.doan_detai6_appbanhangonline.Model;
 
-public class DeliveryAddress {
+import java.io.Serializable;
+
+public class DeliveryAddress implements Serializable {
     String id;
     String idAccount;
     String name;

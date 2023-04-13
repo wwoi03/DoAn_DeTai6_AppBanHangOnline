@@ -45,6 +45,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AccountSettingsActivity.this, AddressActivity.class);
+                intent.putExtra("flag", 1);
                 startActivity(intent);
             }
         });

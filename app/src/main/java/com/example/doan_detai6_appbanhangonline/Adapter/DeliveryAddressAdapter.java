@@ -38,11 +38,23 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
         holder.tvAddress.setText("Địa chỉ: " + deliveryAddress.getAddress());
         if (deliveryAddress.getRole() == 1)
             holder.tvDefault.setVisibility(View.VISIBLE);
+
+        initLister(holder, deliveryAddress, position);
     }
 
     @Override
     public int getItemCount() {
         return deliveryAddresses.size();
+    }
+
+    // xử lý sự kiện
+    private void initLister(DeliveryAddressVH holder, DeliveryAddress deliveryAddress, int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnClickDAListener(deliveryAddress, position);
+            }
+        });
     }
 
     class DeliveryAddressVH extends RecyclerView.ViewHolder {
@@ -59,6 +71,6 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
     }
 
     public interface Listener {
-
+        void setOnClickDAListener(DeliveryAddress deliveryAddress, int pos);
     }
 }

@@ -158,6 +158,10 @@ public class Order implements Serializable {
         textView.setText(getDateBuy());
     }
 
+    public void loadDateCancel(TextView textView) {
+        textView.setText(getDateCancel());
+    }
+
     public void loadTotal(TextView textView) {
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
         numberFormat.setMinimumFractionDigits(0);

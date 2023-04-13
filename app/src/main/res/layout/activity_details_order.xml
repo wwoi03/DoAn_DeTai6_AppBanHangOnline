@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
+<LinearLayout
+    android:id="@+id/llContainerDetailsOrder"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -96,15 +98,34 @@
                         android:orientation="vertical">
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="6dp"
-                            android:text="Địa chỉ nhận hàng"
-                            android:textStyle="bold"
-                            android:textColor="@color/black_color"
-                            android:textSize="16sp">
-                        </TextView>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="6dp"
+                                android:text="Địa chỉ nhận hàng"
+                                android:textStyle="bold"
+                                android:layout_weight="1"
+                                android:textColor="@color/black_color"
+                                android:textSize="16sp">
+                            </TextView>
+
+                            <!-- Thay đổi -->
+                            <TextView
+                                android:id="@+id/tvUpdate"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white_color"
+                                android:textColor="#26AB9A"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                android:text="CẬP NHẬT">
+                            </TextView>
+                        </LinearLayout>
 
                         <!-- Tên, số điện thoại -->
                         <TextView
@@ -124,14 +145,6 @@
                             android:textSize="15sp">
                         </TextView>
                     </LinearLayout>
-
-                    <!-- Thay đổi -->
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@color/white_color"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24">
-                    </ImageButton>
                 </LinearLayout>
             </LinearLayout>
 
@@ -336,7 +349,7 @@
                         </TextView>
                     </LinearLayout>
 
-                    <!-- Thời gina đặt hàng -->
+                    <!-- Thời gian đặt hàng -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -358,12 +371,38 @@
                             android:textSize="15sp">
                         </TextView>
                     </LinearLayout>
+
+                    <!-- Thời gian hủy -->
+                    <LinearLayout
+                        android:id="@+id/llCancelOrder"
+                        android:visibility="gone"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thời gian hủy"
+                            android:layout_weight="1"
+                            android:textSize="15sp">
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/tvDateCancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="10/12/2023"
+                            android:textSize="15sp">
+                        </TextView>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <!-- Hủy đơn hàng -->
             <Button
-                android:id="@+id/btCancelOrder"
+                android:id="@+id/btOptionOrder"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginEnd="16dp"

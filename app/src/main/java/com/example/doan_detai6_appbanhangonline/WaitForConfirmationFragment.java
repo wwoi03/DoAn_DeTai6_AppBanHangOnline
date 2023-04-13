@@ -98,7 +98,7 @@ public class WaitForConfirmationFragment extends Fragment implements OrderAdapte
     private void initData() {
         orders = new ArrayList<>();
         orderAdapter = new OrderAdapter(orders, WaitForConfirmationFragment.this);
-        FirebaseFirestoreAuth.getOrder(orders, 0, orderAdapter);
+        FirebaseFirestoreAuth.getOrders(orders, 0, orderAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rvWCF.setLayoutManager(linearLayoutManager);
         rvWCF.setAdapter(orderAdapter);

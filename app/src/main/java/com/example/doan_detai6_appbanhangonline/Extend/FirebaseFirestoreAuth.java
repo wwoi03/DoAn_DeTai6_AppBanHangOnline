@@ -14,6 +14,7 @@ import com.example.doan_detai6_appbanhangonline.Model.DeliveryAddress;
 import com.example.doan_detai6_appbanhangonline.Model.Order;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -69,6 +70,25 @@ public class FirebaseFirestoreAuth {
                 });
     }
 
+    public static void updateDeliveryAddresses(DeliveryAddress deliveryAddresses) {
+        Map<String, Object> updateDeliveryAddress = new HashMap<>();
+        updateDeliveryAddress.put("Address", deliveryAddresses.getAddress());
+        updateDeliveryAddress.put("IdAccount", deliveryAddresses.getIdAccount());
+        updateDeliveryAddress.put("Name", deliveryAddresses.getName());
+        updateDeliveryAddress.put("Phone", deliveryAddresses.getPhone());
+        updateDeliveryAddress.put("Role", deliveryAddresses.getRole());
+
+        db.collection("DeliveryAddress")
+                .document(deliveryAddresses.getId().trim())
+                .set(updateDeliveryAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
+
     /* ------------------------------- PRODUCT ------------------------------- */
     // lấy dữ liệu từ Product
     public static void getProducts(ArrayList<Product> list,RecyclerView.Adapter adapter) {
@@ -97,22 +117,6 @@ public class FirebaseFirestoreAuth {
                 });
     }
 
-    // thêm product vào cart trên Firebase
-    public static void insertCart(Product productCart, Context context) {
-        Map<String, Object> newCart = new HashMap<>();
-        newCart.put("IdAccount", config.getIdAccount());
-        newCart.put("IdProduct", productCart.getId());
-        newCart.put("UpdateDay", "");
-        newCart.put("Quantity", 1);
-        FirebaseFirestoreAuth.db.collection("Cart").document()
-                .set(newCart)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
     // Load sản phẩm theo danh mục (Product_category)
     public static void getProductCategory(ArrayList<Product> list , String _idCategory, RecyclerView.Adapter adapter) {
@@ -166,6 +170,23 @@ public class FirebaseFirestoreAuth {
     }*/
 
     /* ------------------------------- CART ------------------------------- */
+    // thêm product vào cart trên Firebase
+    public static void insertCart(Product productCart, Context context) {
+        Map<String, Object> newCart = new HashMap<>();
+        newCart.put("IdAccount", config.getIdAccount());
+        newCart.put("IdProduct", productCart.getId());
+        newCart.put("UpdateDay", "");
+        newCart.put("Quantity", 1);
+        FirebaseFirestoreAuth.db.collection("Cart").document()
+                .set(newCart)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     // cập nhật cart
     public static void updateCart(Cart cart, int quantity) {
         Map<String, Object> newCart = new HashMap<>();
@@ -185,11 +206,12 @@ public class FirebaseFirestoreAuth {
 
     // xóa cart
     public static void deleteCart(Cart cart) {
-        db.collection("Cart").document(cart.getId())
+        db.collection("Cart")
+                .document(cart.getId())
                 .delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                    public void onSuccess(Void unused) {
 
                     }
                 });
@@ -255,29 +277,23 @@ public class FirebaseFirestoreAuth {
                 });
     }
 
-    // cập nhật order
-    public static void updateOrder(Cart cart, DeliveryAddress deliveryAddress) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String dateBuy = String.format("%02d", day) + "/" + String.format("%02d", month + 1) + "/" + year;
+    public static void updateOrder(Order order, DeliveryAddress deliveryAddress) {
+        Map<String, Object> updateOrder = new HashMap<>();
+        updateOrder.put("IdProduct", order.getProduct().getId());
+        updateOrder.put("IdAccount", order.getIdAccount());
+        updateOrder.put("Quantity", order.getQuantity());
+        updateOrder.put("FeeShipping", 0);
+        updateOrder.put("Total", order.getTotal());
+        updateOrder.put("Status", order.getStatus());
+        updateOrder.put("RecipientPhone", deliveryAddress.getPhone());
+        updateOrder.put("RecipientName", deliveryAddress.getName());
+        updateOrder.put("RecipientAddress", deliveryAddress.getAddress());
+        updateOrder.put("DateBuy", order.getDateBuy());
+        updateOrder.put("DateCancel", "");
 
-        Map<String, Object> newOrder = new HashMap<>();
-        newOrder.put("IdProduct", cart.getProduct().getId());
-        newOrder.put("IdAccount", config.getIdAccount());
-        newOrder.put("Quantity", cart.getQuantity());
-        newOrder.put("FeeShipping", 0);
-        newOrder.put("Total", cart.getTotalPrice());
-        newOrder.put("Status", 0);
-        newOrder.put("RecipientPhone", deliveryAddress.getPhone());
-        newOrder.put("RecipientName", deliveryAddress.getName());
-        newOrder.put("RecipientAddress", deliveryAddress.getAddress());
-        newOrder.put("DateBuy", dateBuy);
-        newOrder.put("DateCancel", "");
-
-        db.collection("Order").document()
-                .set(newOrder)
+        db.collection("Order")
+                .document(order.getId().trim())
+                .set(updateOrder)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -286,8 +302,34 @@ public class FirebaseFirestoreAuth {
                 });
     }
 
+    // hủy order
+    public static void cancelOrder(Order order) {
+        String dateCancel = currentDay();
+
+        Map<String, Object> newOrder = new HashMap<>();
+        newOrder.put("IdProduct", order.getProduct().getId());
+        newOrder.put("IdAccount", config.getIdAccount());
+        newOrder.put("Quantity", order.getQuantity());
+        newOrder.put("FeeShipping", 0);
+        newOrder.put("Total", order.getTotal());
+        newOrder.put("Status", 2);
+        newOrder.put("RecipientPhone", order.getRecipientPhone());
+        newOrder.put("RecipientName", order.getRecipientName());
+        newOrder.put("RecipientAddress", order.getRecipientAddress());
+        newOrder.put("DateBuy", order.getDateBuy());
+        newOrder.put("DateCancel", dateCancel);
+
+        db.collection("Order").document(order.getId())
+                .set(newOrder)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                    }
+                });
+    }
+
     // lấy các sản phẩm trong order
-    public static void getOrder(ArrayList<Order> list, int _status, RecyclerView.Adapter adapter) {
+    public static void getOrders(ArrayList<Order> list, int _status, RecyclerView.Adapter adapter) {
         db.collection("Order").whereEqualTo("IdAccount", config.getIdAccount())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
