@@ -30,8 +30,4 @@ public class Config extends AppCompatActivity {
     public String getIdAccount() {
         return sharedPreferences.getString("id", "");
     }
-
-    /*public String getName() {
-        return
-    }*/
 }

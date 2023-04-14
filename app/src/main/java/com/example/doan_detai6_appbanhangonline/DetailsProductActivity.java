@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,7 +70,13 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
 
         loadProduct();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        settingActionBar();
+    }
+
+    private void settingActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Chi tiết sản phẩm");
     }
 
     public boolean onSupportNavigateUp() {
@@ -89,7 +96,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         llBuyNow = findViewById(R.id.llBuyNow);
     }
 
-    // xử lý sự kiển
+    // XỬ LÝ SỰ KIỂN --------------------------------------------------------------------- Tuấn
     private void initListener() {
         // xử lý thêm sản phẩm vào giỏ hàng
         llAddCart.setOnClickListener(new View.OnClickListener() {
@@ -137,5 +144,14 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         product.loadSold(tvSold);
         product.loadDescription(tvDescriptionProduct);
         product.loadImage(ivProduct);
+    }
+
+    @Override
+    // xử lý bấm vào một sản phẩm bất kỳ
+    public void setOnClickSPListener(Product product, String id) {
+        Intent intent = new Intent(DetailsProductActivity.this, DetailsProductActivity.class);
+        intent.putExtra("detailsProduct", product);
+        intent.putExtra("idProduct", id);
+        startActivity(intent);
     }
 }

@@ -141,9 +141,6 @@ public class SignInActivity extends AppCompatActivity {
                                          *   2: MODE_APPEND: cho phép ghi thêm
                                          * */
                                         editor.putString("id", document.getId().toString());
-                                        editor.putString("name", document.get("Name").toString());
-                                        editor.putString("email", email);
-                                        editor.putString("password", password);
                                         editor.commit();
 
                                         // chuyển qua trang chủ

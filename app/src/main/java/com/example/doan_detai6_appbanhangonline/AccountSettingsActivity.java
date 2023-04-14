@@ -2,6 +2,7 @@ package com.example.doan_detai6_appbanhangonline;
 
 import static com.example.doan_detai6_appbanhangonline.R.id.btnSignOut;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -28,6 +29,19 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         initUI();
         initListener();
+
+        settingActionBar();
+    }
+
+    private void settingActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Thiết lập tài khoản");
+    }
+
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 
     // ánh xạ view

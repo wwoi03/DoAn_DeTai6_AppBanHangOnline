@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
 import com.example.doan_detai6_appbanhangonline.Model.Notification;
+import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.example.doan_detai6_appbanhangonline.R;
 
 import java.util.ArrayList;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationVH> {
-    FirebaseStorageAuth firebaseStorageExtend=new FirebaseStorageAuth();
     ArrayList<Notification> notifications;
     Listener listener;
 
@@ -34,7 +34,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificationVH holder, int position) {
-        Notification notification=notifications.get(position);
+        Notification notification = notifications.get(position);
 
         //Anh thong bao
         notification.getProduct().loadImage(holder.ivProduct);
@@ -42,6 +42,13 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.tvTitle.setText(notification.getTitle());
         //Noi dung thong bao
         holder.tvDescription.setText(notification.getDescription());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnClickNotificationListener(notification.getProduct(), notification.getIdProduct());
+            }
+        });
     }
 
 
@@ -62,6 +69,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public interface Listener{
-
+        void setOnClickNotificationListener(Product product, String id);
     }
 }

@@ -41,6 +41,13 @@ public class SimilarProductAdapter extends RecyclerView.Adapter<SimilarProductAd
         product.loadName(holder.tvNameProduct);
         product.loadPrice(holder.tvPrice);
         product.loadSold(holder.tvSold);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnClickSPListener(product, product.getId());
+            }
+        });
     }
 
     @Override
@@ -63,6 +70,6 @@ public class SimilarProductAdapter extends RecyclerView.Adapter<SimilarProductAd
     }
 
     public interface Listener {
-
+        void setOnClickSPListener(Product product, String id);
     }
 }

@@ -3,6 +3,10 @@ package com.example.doan_detai6_appbanhangonline;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -63,6 +67,15 @@ public class WaitForConfirmationFragment extends Fragment implements OrderAdapte
     RecyclerView rvWCF;
     OrderAdapter orderAdapter;
     ArrayList<Order> orders;
+    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+
+                }
+            }
+    );
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +108,7 @@ public class WaitForConfirmationFragment extends Fragment implements OrderAdapte
     }
 
     // khởi tạo
-    private void initData() {
+    public void initData() {
         orders = new ArrayList<>();
         orderAdapter = new OrderAdapter(orders, WaitForConfirmationFragment.this);
         FirebaseFirestoreAuth.getOrders(orders, 0, orderAdapter);
@@ -110,9 +123,10 @@ public class WaitForConfirmationFragment extends Fragment implements OrderAdapte
     }
 
     @Override
+    // chuyển trang khi bấm vào một order bất kỳ
     public void setOnClickOrderListener(Order order, int pos) {
         Intent intent = new Intent(getContext(), DetailsOrderActivity.class);
         intent.putExtra("detailsOrder", order);
-        startActivity(intent);
+        launcher.launch(intent);
     }
 }

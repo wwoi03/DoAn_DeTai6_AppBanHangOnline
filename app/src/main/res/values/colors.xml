@@ -17,4 +17,5 @@
     <color name="bg_color">#F5F5F5</color>
     <color name="star_color">#F2C618</color>
     <color name="favorite_color">#F70707</color>
+    <color name="delete_color">#D61A0C</color>
 </resources>

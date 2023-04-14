@@ -21,10 +21,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     Listener listener;
 
     public ProductAdapter(ArrayList<Product> products, Listener listener) {
-        notifyDataSetChanged();
         this.products = products;
         this.listener = listener;
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -37,9 +35,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductVH holder, int position) {
-        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
-        numberFormat.setMinimumFractionDigits(0);
-
         Product product = products.get(position);
 
         product.loadImage(holder.ivProduct);
@@ -47,7 +42,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         product.loadPrice(holder.tvPrice);
         product.loadSold(holder.tvSold);
 
-        initListener(holder, product, product.getId(), position);
+        /*initListener(holder, product, product.getId(), position);*/
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.setOnClickItemListener(product, product.getId());
+            }
+        });
     }
 
     @Override
@@ -56,12 +57,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     private void initListener(ProductVH holder, Product product, String id, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.setOnClickItemListener(product, id);
             }
-        });
+        });*/
     }
 
     class ProductVH extends RecyclerView.ViewHolder {

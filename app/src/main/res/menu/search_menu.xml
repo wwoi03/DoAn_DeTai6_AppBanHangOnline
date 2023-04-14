@@ -6,14 +6,7 @@
         android:title="Search"
         android:icon="@drawable/baseline_search_24"
         android:iconTint="@color/white_color"
-        app:showAsAction="always">
-    </item>
-
-    <item
-        android:id="@+id/mnuCart"
-        android:title="Cart"
-        android:iconTint="@color/white_color"
-        android:icon="@drawable/baseline_shopping_cart_checkout_24"
-        app:showAsAction="always">
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView">
     </item>
 </menu>

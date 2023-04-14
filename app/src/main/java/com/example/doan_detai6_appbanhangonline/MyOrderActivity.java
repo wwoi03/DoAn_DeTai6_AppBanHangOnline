@@ -56,8 +56,11 @@ public class MyOrderActivity extends AppCompatActivity {
         initListener();
 
         String fragmentToShow = (String) getIntent().getSerializableExtra("fragment_to_show");
-        if (fragmentToShow != null && fragmentToShow.equals("CF")) {
-            loadFragment(cancelledFragment);
+        if (fragmentToShow != null && "WFCF".equals(fragmentToShow)) {
+            bnvMyOrder.setSelectedItemId(R.id.mnuWaitForConfirmation);
+            Toast.makeText(this, "Đặt hàng thành công", Toast.LENGTH_SHORT).show();
+        }
+        if (fragmentToShow != null && "CF".equals(fragmentToShow)) {
             bnvMyOrder.setSelectedItemId(R.id.mnuCancelled);
             Toast.makeText(this, "Hủy đơn hàng thành công", Toast.LENGTH_SHORT).show();
         }
@@ -68,12 +71,7 @@ public class MyOrderActivity extends AppCompatActivity {
     private void settingActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         actionBar.setTitle("Đơn mua");
-        Spannable text = new SpannableString(actionBar.getTitle());
-        text.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        actionBar.setTitle(text);
     }
 
     public boolean onSupportNavigateUp() {

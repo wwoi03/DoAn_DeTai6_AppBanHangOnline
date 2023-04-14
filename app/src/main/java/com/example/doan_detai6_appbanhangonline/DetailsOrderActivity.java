@@ -31,8 +31,6 @@ import com.example.doan_detai6_appbanhangonline.Model.Order;
 public class DetailsOrderActivity extends AppCompatActivity {
 
     Order order;
-    Intent getDataOrder;
-
     // View
     TextView tvStatus, tvMessageStatus, tvNameAndPhone, tvUpdate, tvAddress, tvNameProduct, tvQuantity, tvPrice, tvTotalPrice, tvIdOrder, tvDateBuy, tvDateCancel;
     LinearLayout llCancelOrder;
@@ -44,7 +42,8 @@ public class DetailsOrderActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == 1001) {
+                    // Cập nhật địa chỉ giao hàng khác
+                    if (result.getResultCode() == AddressActivity.REQUEST_UPDATE_ORDER_DELIVERYADDRESS) {
                         DeliveryAddress deliveryAddress = (DeliveryAddress) result.getData().getSerializableExtra("deliveryAddress");
                         FirebaseFirestoreAuth.updateOrder(order, deliveryAddress);
                         order.setRecipientAddress(deliveryAddress.getAddress());
@@ -62,8 +61,6 @@ public class DetailsOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_order);
 
-        getDataOrder = getIntent();
-
         initUI();
         initData();
         initListener();
@@ -75,12 +72,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
     private void settingActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
         actionBar.setTitle("Thông tin đơn hàng");
-        Spannable text = new SpannableString(actionBar.getTitle());
-        text.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        actionBar.setTitle(text);
     }
 
     public boolean onSupportNavigateUp() {
@@ -110,6 +102,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
 
     // get date
     private void initData() {
+        Intent getDataOrder = getIntent();
         order = (Order) getDataOrder.getSerializableExtra("detailsOrder");
     }
 
@@ -136,7 +129,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
             }
         });
 
-        // xử lý khi bấm cập nhật
+        // xử lý khi bấm cập nhật (Thay đổi địa chỉ đơn hàng)
         tvUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

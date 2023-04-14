@@ -38,14 +38,17 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.mnuHome:
+                        getSupportActionBar().setTitle("Trang chủ");
                         loadFragment(homeFragment);
                         break;
 
                     case R.id.mnuNotification:
+                        getSupportActionBar().setTitle("Thông báo");
                         loadFragment(notificationFragment);
                         break;
 
                     case R.id.mnuUser:
+                        getSupportActionBar().setTitle("Tài khoản người dùng");
                         loadFragment(userFragment);
                         break;
                 }
@@ -73,8 +76,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mnuCart:
-                Intent intent = new Intent(MainActivity.this, CartActivity.class);
-                startActivity(intent);
+                Intent cart = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(cart);
+                break;
+            case R.id.mnuSearch:
+                Intent search = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(search);
                 break;
         }
         return super.onOptionsItemSelected(item);

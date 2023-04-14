@@ -126,8 +126,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
         initUI(view);
         initData();
         initListener();
-
-        loadCategories(view);
     }
 
     // ánh xạ view
@@ -150,6 +148,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
         // category
         categories = new ArrayList<>();
         categoryAdapter = new CategoryAdapter(HomeFragment.this, categories);
+        FirebaseFirestoreAuth.getCategories(categories, categoryAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvCategories.setLayoutManager(linearLayoutManager);
         rvCategories.setAdapter(categoryAdapter);
@@ -166,28 +165,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
             }
         });
     }
-
-    // Load danh mục sản phẩm (Category)
-    private void loadCategories(View view) {
-        db.collection("Category")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String name = document.get("Name").toString();
-                            String imageCategory = document.get("Image").toString();
-                            Category category = new Category(id, name, imageCategory);
-                            categories.add(category);
-                        }
-
-                        categoryAdapter.notifyDataSetChanged();
-                    }
-                });
-    }
-
-
 
     @Override
     // xử lý khi bấm vào một thể loại bất kỳ

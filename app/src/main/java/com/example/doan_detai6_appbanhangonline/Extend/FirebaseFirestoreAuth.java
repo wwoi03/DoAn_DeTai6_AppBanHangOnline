@@ -9,8 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doan_detai6_appbanhangonline.DetailsProductActivity;
+import com.example.doan_detai6_appbanhangonline.Model.Account;
 import com.example.doan_detai6_appbanhangonline.Model.Cart;
+import com.example.doan_detai6_appbanhangonline.Model.Category;
 import com.example.doan_detai6_appbanhangonline.Model.DeliveryAddress;
+import com.example.doan_detai6_appbanhangonline.Model.Notification;
 import com.example.doan_detai6_appbanhangonline.Model.Order;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,9 +21,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,13 +34,11 @@ import java.util.Map;
 public class FirebaseFirestoreAuth {
     static Config config;
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    public static ArrayList<DeliveryAddress> deliveryAddresses = new ArrayList<>();
     public static ArrayList<Product> products = new ArrayList<>();
     public static ArrayList<Cart> carts = new ArrayList<>();
 
     public FirebaseFirestoreAuth(Config config) {
         this.config = config;
-        getDeliveryAddresses();
     }
 
     public static String currentDay() {
@@ -49,7 +52,7 @@ public class FirebaseFirestoreAuth {
 
     /* ------------------------------- DELIVERY ADDRESS ------------------------------- */
     // lấy dữ liệu địa chỉ người nhận
-    public static void getDeliveryAddresses() {
+    public static void getDeliveryAddresses(ArrayList<DeliveryAddress> list, RecyclerView.Adapter adapter) {
         db.collection("DeliveryAddress").whereEqualTo("IdAccount", config.getIdAccount())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -64,13 +67,15 @@ public class FirebaseFirestoreAuth {
                             String address = document.get("Address").toString();
                             int role = document.get("Role", Integer.class);
                             DeliveryAddress deliveryAddress = new DeliveryAddress(id, idAccount, name, phone, address, role);
-                            deliveryAddresses.add(deliveryAddress);
+                            list.add(deliveryAddress);
                         }
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }
 
-    public static void updateDeliveryAddresses(DeliveryAddress deliveryAddresses) {
+    // cập nhật địa chỉ
+    public static void updateDeliveryAddress(DeliveryAddress deliveryAddresses) {
         Map<String, Object> updateDeliveryAddress = new HashMap<>();
         updateDeliveryAddress.put("Address", deliveryAddresses.getAddress());
         updateDeliveryAddress.put("IdAccount", deliveryAddresses.getIdAccount());
@@ -84,6 +89,37 @@ public class FirebaseFirestoreAuth {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
+    // Thêm địa chỉ
+    public static void insertDeliveryAddresses(DeliveryAddress deliveryAddresses) {
+        Map<String, Object> updateDeliveryAddress = new HashMap<>();
+        updateDeliveryAddress.put("Address", deliveryAddresses.getAddress());
+        updateDeliveryAddress.put("IdAccount", deliveryAddresses.getIdAccount());
+        updateDeliveryAddress.put("Name", deliveryAddresses.getName());
+        updateDeliveryAddress.put("Phone", deliveryAddresses.getPhone());
+        updateDeliveryAddress.put("Role", deliveryAddresses.getRole());
+
+        db.collection("DeliveryAddress")
+                .document()
+                .set(updateDeliveryAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
+
+    public static void deleteDeliveryAddresses(DeliveryAddress deliveryAddresses) {
+        db.collection("DeliveryAddress")
+                .document(deliveryAddresses.getId())
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
 
                     }
                 });
@@ -169,13 +205,56 @@ public class FirebaseFirestoreAuth {
                 });
     }*/
 
+    // tìm kiếm sản phẩm
+    public static void getSearchProducts(ArrayList<Product> list, RecyclerView.Adapter adapter, String searchString, int flag) {
+        String field = "";
+        Query.Direction descending = Query.Direction.ASCENDING;
+
+        if (flag == 0) {
+            field = "Name";
+        } else if (flag == 1) {
+            field = "Price";
+            descending = Query.Direction.DESCENDING;
+        } else if (flag == 2){
+            field = "Price";
+        } else {
+            field = "Sold";
+            descending = Query.Direction.DESCENDING;
+        }
+
+        db.collection("Product")
+                .orderBy(field, descending)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.get("Name").toString().toLowerCase().contains(searchString)) {
+                                String id = document.getId();
+                                String name = document.get("Name").toString();
+                                double price = document.get("Price", Double.class);
+                                int sold = document.get("Sold", Integer.class);
+                                String description = document.get("Description").toString();
+                                String updateDay = document.get("UpdateDay").toString(); // Ngày cập nhật
+                                String imageProduct = document.get("ImageProduct").toString();
+                                String idSupplier = document.get("IdSupplier").toString();
+                                String idCategory = document.get("IdCategory").toString();
+                                Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
+                                list.add(product);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
     /* ------------------------------- CART ------------------------------- */
     // thêm product vào cart trên Firebase
     public static void insertCart(Product productCart, Context context) {
         Map<String, Object> newCart = new HashMap<>();
         newCart.put("IdAccount", config.getIdAccount());
         newCart.put("IdProduct", productCart.getId());
-        newCart.put("UpdateDay", "");
+        newCart.put("UpdateDay", currentDay());
         newCart.put("Quantity", 1);
         FirebaseFirestoreAuth.db.collection("Cart").document()
                 .set(newCart)
@@ -183,6 +262,23 @@ public class FirebaseFirestoreAuth {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         Toast.makeText(context, "Thêm sản phẩm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    //Them cart
+    public static void insertCartAfterDelete(Cart cart, int quantity) {
+        Map<String, Object> newCart = new HashMap<>();
+        newCart.put("IdAccount", cart.getIdAccount());
+        newCart.put("IdProduct", cart.getIdProduct());
+        newCart.put("UpdateDay", cart.getUpdateDay());
+        newCart.put("Quantity", quantity);
+        db.collection("Cart").document(cart.getId())
+                .set(newCart)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
                     }
                 });
     }
@@ -207,20 +303,32 @@ public class FirebaseFirestoreAuth {
     // xóa cart
     public static void deleteCart(Cart cart) {
         db.collection("Cart")
-                .document(cart.getId())
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
+                .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.getId().equals(cart.getId()))
+                                        db.collection("Cart")
+                                                .document(cart.getId())
+                                                .delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
 
-                    }
-                });
+                                                    }
+                                                });
+                                    }
+                                }
+                        });
+
     }
 
     // lấy dữ liệu từ giỏ hàng
     public static void getCarts(ArrayList<Cart> list, RecyclerView.Adapter adapter) {
         carts.clear();
         db.collection("Cart").whereEqualTo("IdAccount", config.getIdAccount())
+
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -361,6 +469,80 @@ public class FirebaseFirestoreAuth {
                             }
                         }
                         adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    /* ------------------------------- NOTIFICATION ------------------------------- */
+    public static void getNotifications(ArrayList<Notification> list, RecyclerView.Adapter adapter) {
+        db.collection("Notification")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String title=document.get("Title").toString();
+                            String idproduct=document.get("IdProduct").toString();
+                            String description=document.get("Description").toString();
+
+                            Product product = new Product();
+                            for (int i = 0; i < products.size(); i++) {
+                                if (idproduct.equals(products.get(i).getId())) {
+                                    product = products.get(i);
+                                    break;
+                                }
+                            }
+
+                            Notification notification=new Notification(id,idproduct,title,description,product);
+                            list.add(notification);
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    /* ------------------------------- CATEGORY ------------------------------- */
+    // Load danh mục sản phẩm (Category)
+    public static void getCategories(ArrayList<Category> list, RecyclerView.Adapter adapter) {
+        db.collection("Category")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String name = document.get("Name").toString();
+                            String imageCategory = document.get("Image").toString();
+                            Category category = new Category(id, name, imageCategory);
+                            list.add(category);
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    /* ------------------------------- Account ------------------------------- */
+    // lấy dữ liệu tài khoản
+    public static void getAccount(Account account) {
+        db.collection("Account")
+                .document(config.getIdAccount())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        account.setId(document.getId());
+                        account.setImageAccount(document.get("Image").toString());
+                        account.setAddress(document.get("Address").toString());
+                        account.setName(document.get("Name").toString());
+                        account.setBirthday(document.get("Birthday").toString());
+                        account.setEmail("");
+                        account.setPassword("");
+                        account.setGender(document.get("Gender").toString());
+                        account.setPhone(document.get("Phone").toString());
                     }
                 });
     }

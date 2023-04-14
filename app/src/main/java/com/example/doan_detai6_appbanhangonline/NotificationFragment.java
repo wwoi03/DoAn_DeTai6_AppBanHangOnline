@@ -1,5 +1,6 @@
 package com.example.doan_detai6_appbanhangonline;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,10 +40,8 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     //Khai bao bien toan cuc
     RecyclerView rcvNotification;
-    ArrayList<Notification>notifications;
-    ArrayList<Product>products;
+    ArrayList<Notification> notifications;
     NotificationAdapter notificationAdapter;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
 
@@ -103,75 +102,28 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
         initUI(view);
         initData();
-
-        loadNotification();
     }
 
     public void initUI(View view){
 
         rcvNotification=view.findViewById(R.id.rcvNotification);
     }
+
     public  void initData(){
-        products=new ArrayList<>();
-        notifications=new ArrayList<>();
-        notificationAdapter=new NotificationAdapter(notifications,NotificationFragment.this);
+        notifications = new ArrayList<>();
+        notificationAdapter = new NotificationAdapter(notifications,NotificationFragment.this);
+        FirebaseFirestoreAuth.getNotifications(notifications, notificationAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rcvNotification.setLayoutManager(linearLayoutManager);
         rcvNotification.setAdapter(notificationAdapter);
     }
 
-
-
-    // Load thong bao (Notification)
-    private void loadNotification() {
-        loadProductsAll();
-        db.collection("Notification")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String title=document.get("Title").toString();
-                            String idproduct=document.get("IdProduct").toString();
-                            String description=document.get("Description").toString();
-
-                            Product product = new Product();
-                            for (int i = 0; i < products.size(); i++) {
-                                if (idproduct.equals(products.get(i).getId())) {
-                                    product = products.get(i);
-                                    break;
-                                }
-                            }
-                            Notification notification=new Notification(id,idproduct,title,description,product);
-                            notifications.add(notification);
-                        }
-
-                        notificationAdapter.notifyDataSetChanged();
-                    }
-                });
-    }
-
-    private void loadProductsAll() {
-        FirebaseFirestoreAuth.db.collection("Product")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String id = document.getId();
-                            String name = document.get("Name").toString();
-                            double price = document.get("Price", Double.class);
-                            int sold = document.get("Sold", Integer.class);
-                            String description = document.get("Description").toString();
-                            String updateDay = document.get("UpdateDay").toString(); // Ngày cập nhật
-                            String imageProduct = document.get("ImageProduct").toString();
-                            String idSupplier = document.get("IdSupplier").toString();
-                            String idCategory = document.get("IdCategory").toString();
-                            Product product = new Product(id, name, price, sold, description, updateDay, imageProduct, idSupplier, idCategory);
-                            products.add(product);
-                        }
-                    }
-                });
+    @Override
+    // xử lý bấm vào thông báo
+    public void setOnClickNotificationListener(Product product, String id) {
+        Intent intent = new Intent(getContext(), DetailsProductActivity.class);
+        intent.putExtra("detailsProduct", product);
+        intent.putExtra("idProduct", id);
+        startActivity(intent);
     }
 }

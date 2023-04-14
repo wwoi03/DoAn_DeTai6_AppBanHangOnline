@@ -3,11 +3,14 @@ package com.example.doan_detai6_appbanhangonline;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doan_detai6_appbanhangonline.Adapter.CartAdapter;
 import com.example.doan_detai6_appbanhangonline.Adapter.SimilarProductAdapter;
@@ -30,6 +34,7 @@ import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -37,6 +42,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class CartActivity extends AppCompatActivity implements CartAdapter.Listener {
     RecyclerView rvCarts;
@@ -59,17 +66,16 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         initData();
         initListener();
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(rvCarts);
+
+        settingActionBar();
     }
 
     private void settingActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_24);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFFFFF")));
-        actionBar.setTitle("Giỏ hàng (" + FirebaseFirestoreAuth.carts.size() + ")");
-        Spannable text = new SpannableString(actionBar.getTitle());
-        text.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        actionBar.setTitle(text);
+        actionBar.setTitle("Giỏ hàng");
     }
 
     public boolean onSupportNavigateUp() {
@@ -110,7 +116,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         carts = new ArrayList<>();
         cartAdapter = new CartAdapter(carts, CartActivity.this);
         FirebaseFirestoreAuth.getCarts(carts, cartAdapter);
-        settingActionBar();
+        /*getSupportActionBar().setTitle("Giỏ hàng (" + cartAdapter.getItemCount() + ")");*/
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false);
         rvCarts.setLayoutManager(linearLayoutManager);
         rvCarts.setAdapter(cartAdapter);
@@ -165,4 +171,47 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
             buyCarts.remove(pos);
         }
     }
+
+    Cart deleteProduct = null;
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            //Remove swiped item from list and notify the RecyclerView
+            int position = viewHolder.getAdapterPosition();
+            deleteProduct= carts.get(position);
+
+
+            FirebaseFirestoreAuth.deleteCart(deleteProduct);
+            carts.remove(position);
+            cartAdapter.notifyDataSetChanged();
+
+            Snackbar snackbar = Snackbar
+                    .make(rvCarts, "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng", Snackbar.LENGTH_LONG);
+            snackbar.setAction("Hoàn tác", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    FirebaseFirestoreAuth.insertCartAfterDelete(deleteProduct, deleteProduct.getQuantity());
+                    carts.add(deleteProduct);
+                    cartAdapter.notifyDataSetChanged();
+                }
+            }).setBackgroundTint(Color.WHITE).setTextColor(Color.RED).setActionTextColor(Color.GREEN).show();
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(CartActivity.this,R.color.delete_color))
+                    .addSwipeLeftActionIcon(R.drawable.baseline_delete_forever_24)
+                    .create()
+                    .decorate();
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
 }

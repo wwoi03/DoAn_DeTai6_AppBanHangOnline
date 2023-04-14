@@ -51,8 +51,21 @@
                             android:src="@drawable/icons8_home_address_50">
                         </ImageView>
 
+                        <TextView
+                            android:id="@+id/tvDeliveryAddressNull"
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:textSize="16dp"
+                            android:textStyle="bold"
+                            android:text="Chưa có thông tin người nhận">
+                        </TextView>
+
                         <!-- Thông tin người nhận-->
                         <LinearLayout
+                            android:id="@+id/llInfoDelivery"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -73,7 +86,7 @@
                                 android:id="@+id/tvNameAndPhone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Đào Công Tuấn  |  (+84) 909 900 009"
+                                android:text="Tên người nhận  |  (+84) số điện thoại"
                                 android:textColor="@color/black_color"
                                 android:textSize="16sp">
                             </TextView>
@@ -83,7 +96,7 @@
                                 android:id="@+id/tvAddress"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="246/76 Hòa Hưng, Q10"
+                                android:text="Địa chỉ nơi nhận"
                                 android:textColor="@color/black_color"
                                 android:textSize="16sp">
                             </TextView>
@@ -91,8 +104,10 @@
 
                         <!-- Thay đổi -->
                         <ImageButton
+                            android:id="@+id/ibAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:paddingStart="20dp"
                             android:background="@color/white_color"
                             android:src="@drawable/baseline_keyboard_arrow_right_24">
                         </ImageButton>
