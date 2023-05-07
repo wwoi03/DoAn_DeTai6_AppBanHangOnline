@@ -18,4 +18,5 @@
     <color name="star_color">#F2C618</color>
     <color name="favorite_color">#F70707</color>
     <color name="delete_color">#D61A0C</color>
+    <color name="normal_color">#757575</color>
 </resources>

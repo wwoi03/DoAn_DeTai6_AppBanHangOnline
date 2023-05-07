@@ -2,15 +2,21 @@ package com.example.doan_detai6_appbanhangonline.Extend;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.doan_detai6_appbanhangonline.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class FirebaseStorageAuth {
     static FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
@@ -20,7 +26,28 @@ public class FirebaseStorageAuth {
     }
 
     public static void loadImage(String folder, String image, ImageView imageView) {
-        StorageReference storageRef = firebaseStorage.getReference();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child(folder + "/" + image); // đường dẫn tới file hình ảnh trên Firebase Storage
+
+        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                String imageURL = uri.toString(); // địa chỉ URL của hình ảnh trên Firebase Storage
+                // sử dụng thư viện Glide
+                Glide.with(imageView.getContext())
+                        .load(imageURL)
+                        .into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Xử lý nếu không lấy được địa chỉ URL của hình ảnh
+            }
+        });
+
+        /*StorageReference storageRef = firebaseStorage.getReference();
         String bucketName = storageRef.getBucket(); // lấy đường dẫn đến Storage trên firebase
         String location = "gs://" + bucketName + "/" + folder + "/"; // nối đường dẫn đến địa chỉ folder cụ thể
 
@@ -42,6 +69,6 @@ public class FirebaseStorageAuth {
                         // nếu không thành công thì để ảnh mặc định : ảnh lỗi
                         imageView.setImageResource(R.drawable.baseline_error_outline_24);
                     }
-                });
+                });*/
     }
 }

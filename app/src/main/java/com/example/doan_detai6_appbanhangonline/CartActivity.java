@@ -39,8 +39,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -55,6 +57,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
     TextView tvTotalPrice;
     Button btBuy;
     Config config;
+    double total = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +127,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
 
     @Override
     // xử lý khi bấm vào một sản phẩm bất kỳ
-    public void setOnClickProductListener(Product product, String id) {
+    public void setOnClickIvProductListener(Product product, String id) {
         Intent intent = new Intent(this, DetailsProductActivity.class);
         intent.putExtra("detailsProduct", product);
         intent.putExtra("idProduct", id);
@@ -165,10 +168,27 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
     @Override
     // xử lý tích checkbox sản phẩm
     public void setOnClickCheckboxListener(Cart cart, int pos, boolean isChecked) {
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+        numberFormat.setMinimumFractionDigits(0);
+
+        double cartTotal = cart.getTotalPrice();
         if (isChecked == true) {
             buyCarts.add(cart);
+            total += cartTotal;
+            tvTotalPrice.setText("đ" + numberFormat.format(total));
         } else {
-            buyCarts.remove(pos);
+            removeCheckbox(cart);
+            total -= cartTotal;
+            tvTotalPrice.setText("đ" + numberFormat.format(total));
+        }
+        btBuy.setText("Mua hàng (" + buyCarts.size() + ")");
+    }
+
+    // xử lý xóa đơn hàng khi tắt checkbox
+    private void removeCheckbox(Cart cart) {
+        for (int i = 0; i < buyCarts.size(); i++) {
+            if (cart.getId() == buyCarts.get(i).getId())
+                buyCarts.remove(i);
         }
     }
 
@@ -185,7 +205,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
             int position = viewHolder.getAdapterPosition();
             deleteProduct= carts.get(position);
 
-
             FirebaseFirestoreAuth.deleteCart(deleteProduct);
             carts.remove(position);
             cartAdapter.notifyDataSetChanged();
@@ -195,8 +214,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
             snackbar.setAction("Hoàn tác", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     FirebaseFirestoreAuth.insertCartAfterDelete(deleteProduct, deleteProduct.getQuantity());
                     carts.add(deleteProduct);
                     cartAdapter.notifyDataSetChanged();

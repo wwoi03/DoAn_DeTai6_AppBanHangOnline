@@ -24,6 +24,7 @@ import com.example.doan_detai6_appbanhangonline.Adapter.SimilarProductAdapter;
 import com.example.doan_detai6_appbanhangonline.Extend.Config;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
 import com.example.doan_detai6_appbanhangonline.Model.Cart;
+import com.example.doan_detai6_appbanhangonline.Model.MyFavoriteProduct;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,13 +45,14 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
     SimilarProductAdapter similarProductAdapter;
     ArrayList<Product> similarProducts;
     TextView tvNameProduct, tvPriceProduct, tvSold, tvDescriptionProduct;
-    ImageView ivProduct;
+    ImageView ivProduct, ivFavorite;
     LinearLayout llAddCart, llBuyNow;
     Intent getDataIntent;
     Product product;
     String idProduct;
     ArrayList<Cart> buyCarts;
     Config config;
+    boolean checkFavorite = false;
 
     // HÀM XỬ LÝ CHÍNH
     @Override
@@ -94,6 +96,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         tvDescriptionProduct = findViewById(R.id.tvDescriptionProduct);
         llAddCart = findViewById(R.id.llAddCart);
         llBuyNow = findViewById(R.id.llBuyNow);
+        ivFavorite = findViewById(R.id.ivFavorite);
     }
 
     // XỬ LÝ SỰ KIỂN --------------------------------------------------------------------- Tuấn
@@ -124,6 +127,19 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
                 startActivity(intent);
             }
         });
+
+        // xử lý sự kiện khi bấm vào yêu thích
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkFavorite = checkFavorite == false ? true : false;
+                if (checkFavorite == true)
+                    FirebaseFirestoreAuth.insertMyFavoriteProduct(product.getId());
+                else
+                    FirebaseFirestoreAuth.deleteMyFavoriteProduct(product.getId());
+                loadFavorite();
+            }
+        });
     }
 
     // nạp dữ liệu
@@ -144,6 +160,33 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
         product.loadSold(tvSold);
         product.loadDescription(tvDescriptionProduct);
         product.loadImage(ivProduct);
+        getFavorite();
+    }
+
+    // get favorite
+    private void getFavorite() {
+        FirebaseFirestoreAuth.db.collection("MyFavoriteProduct")
+                .whereEqualTo("IdAccount", config.getIdAccount())
+                .whereEqualTo("IdProduct", idProduct)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            checkFavorite = true;
+                            loadFavorite();
+                        }
+                    }
+                });
+    }
+
+    // load favorite
+    private void loadFavorite() {
+        if (checkFavorite == true) {
+            ivFavorite.setImageResource(R.drawable.baseline_favorite_24);
+        } else {
+            ivFavorite.setImageResource(R.drawable.baseline_favorite_border_24);
+        }
     }
 
     @Override

@@ -120,7 +120,7 @@ public class AddressActivity extends AppCompatActivity implements DeliveryAddres
 
     // xử lý sự kiện
     private void initListener() {
-        // xử lý bấm thêm
+        // xử lý bấm thêm ------------------------------------------ HÀO
         llAddAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,15 +132,15 @@ public class AddressActivity extends AppCompatActivity implements DeliveryAddres
     }
 
     @Override
-    // xử lý khi bấm vào địa chỉ
+    // xử lý khi bấm vào địa chỉ bất kỳ
     public void setOnClickDAListener(DeliveryAddress deliveryAddress, int pos) {
         position = pos;
-        if (flag == 0) { // thay đổi địa chỉ đơn hàng
+        if (flag == 0) { // thay đổi địa chỉ đơn hàng - đang đứng ở trang order
             Intent intent = getIntent();
             intent.putExtra("deliveryAddress", deliveryAddress);
             setResult(REQUEST_UPDATE_ORDER_DELIVERYADDRESS ,intent);
             finish();
-        } else if (flag == 1) { // chỉnh sửa địa chỉ
+        } else if (flag == 1) { // chỉnh sửa địa chỉ - đang đứng ở thiết lập tài khoản hoặc trang AddressActivity
             Intent intent = new Intent(AddressActivity.this, AddEditDeliveryAdressActivity.class);
             intent.putExtra("deliveryAddress", deliveryAddress);
             intent.putExtra("flag", 0); // chỉnh sửa

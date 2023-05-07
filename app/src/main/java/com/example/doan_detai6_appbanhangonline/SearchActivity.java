@@ -32,7 +32,7 @@ public class SearchActivity extends AppCompatActivity implements Filterable, Pro
 
     // Search
     SearchView searchView;
-    String tmpSearch;
+    String tmpSearch = "";
 
     // View
     TextView tvPriceInDecrease, tvSelling, tvPriceDecrease;
@@ -86,7 +86,7 @@ public class SearchActivity extends AppCompatActivity implements Filterable, Pro
             @Override
             public void onClick(View v) {
                 products.clear();
-                FirebaseFirestoreAuth.getSearchProducts(products, productAdapter, tmpSearch, 1);
+                FirebaseFirestoreAuth.getSearchProducts(products, productAdapter, tmpSearch, 2);
             }
         });
 
@@ -104,7 +104,7 @@ public class SearchActivity extends AppCompatActivity implements Filterable, Pro
             @Override
             public void onClick(View v) {
                 products.clear();
-                FirebaseFirestoreAuth.getSearchProducts(products, productAdapter, tmpSearch, 2);
+                FirebaseFirestoreAuth.getSearchProducts(products, productAdapter, tmpSearch, 1);
             }
         });
     }
@@ -114,10 +114,24 @@ public class SearchActivity extends AppCompatActivity implements Filterable, Pro
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.search_menu, menu);
 
+        // Khai báo SearchView và SearchManager
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView =  (SearchView) menu.findItem(R.id.mnuSearch).getActionView();
+
+        // Thiết lập SearchManager cho SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        // Thiết lập biểu tượng tìm kiếm
+        searchView.setIconified(true);
+
+        // tự động focus khi bấm vào tìm kiếm
+        searchView.setIconifiedByDefault(false);
+        searchView.requestFocus();
+
+        // màu sắc
+        /*searchView.setBackground(getResources().getDrawable(R.drawable.search_view));*/
+        searchView.setQueryHint("Tìm kiếm sản phẩm...");
 
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
@@ -144,7 +158,7 @@ public class SearchActivity extends AppCompatActivity implements Filterable, Pro
             @Override
             // Thực hiện công việc tìm kiếm
             protected FilterResults performFiltering(CharSequence constraint) {
-                String searchString  = constraint.toString().toLowerCase();
+                String searchString  = constraint.toString().toLowerCase(); // chuyển chữ thường
                 tmpSearch = searchString;
                 if (searchString.isEmpty()) {
                     products.clear();

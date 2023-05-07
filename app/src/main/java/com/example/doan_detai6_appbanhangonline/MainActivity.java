@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
         bnvMenu = findViewById(R.id.bnvMenu);
 
         loadFragment(homeFragment); // load giao diện mặc định
+        getSupportActionBar().setTitle("Trang chủ");
 
-        // Xử lý khi bấm vào menu bất kì
+        // Xử lý khi bấm vào item bất kì
         bnvMenu.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    // khởi tạo menu
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_header, menu);
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    // tương tác các item trong menu
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mnuCart:

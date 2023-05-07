@@ -91,9 +91,9 @@ public class AddEditDeliveryAdressActivity extends AppCompatActivity {
         btSuccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (flag == 0) {
+                if (flag == 0) { // sửa
                     updateDA();
-                } else {
+                } else { // thêm
                     insertDA();
                 }
                 finish();

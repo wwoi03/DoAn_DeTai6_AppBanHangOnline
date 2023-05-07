@@ -8,34 +8,36 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.doan_detai6_appbanhangonline.DetailsProductActivity;
 import com.example.doan_detai6_appbanhangonline.Model.Account;
 import com.example.doan_detai6_appbanhangonline.Model.Cart;
 import com.example.doan_detai6_appbanhangonline.Model.Category;
 import com.example.doan_detai6_appbanhangonline.Model.DeliveryAddress;
+import com.example.doan_detai6_appbanhangonline.Model.MyFavoriteProduct;
 import com.example.doan_detai6_appbanhangonline.Model.Notification;
 import com.example.doan_detai6_appbanhangonline.Model.Order;
 import com.example.doan_detai6_appbanhangonline.Model.Product;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class FirebaseFirestoreAuth {
     static Config config;
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static ArrayList<Product> products = new ArrayList<>();
     public static ArrayList<Cart> carts = new ArrayList<>();
+    /*public static ArrayList<MyFavoriteProducts> myFavoriteProducts = new ArrayList<>();*/
 
     public FirebaseFirestoreAuth(Config config) {
         this.config = config;
@@ -210,14 +212,14 @@ public class FirebaseFirestoreAuth {
         String field = "";
         Query.Direction descending = Query.Direction.ASCENDING;
 
-        if (flag == 0) {
+        if (flag == 0) { // tìm kiếm sản phẩm: A -> Z
             field = "Name";
-        } else if (flag == 1) {
+        } else if (flag == 1) { // tìm kiếm giá sản phẩm tăng dần
             field = "Price";
             descending = Query.Direction.DESCENDING;
-        } else if (flag == 2){
+        } else if (flag == 2){ // tìm kiếm giá sản phẩm giảm dần
             field = "Price";
-        } else {
+        } else { // tìm kiếm sản phẩm bán chạy
             field = "Sold";
             descending = Query.Direction.DESCENDING;
         }
@@ -543,6 +545,70 @@ public class FirebaseFirestoreAuth {
                         account.setPassword("");
                         account.setGender(document.get("Gender").toString());
                         account.setPhone(document.get("Phone").toString());
+                    }
+                });
+    }
+
+    /* ------------------------------- MY_FAVORITE_PRODUCTS ------------------------------- */
+    // lấy sản phẩm yêu thích
+    public static ArrayList<MyFavoriteProduct> getMyFavoriteProduct(String idProduct)  {
+        ArrayList<MyFavoriteProduct> myFavoriteProducts = new ArrayList<>();
+        db.collection("MyFavoriteProduct")
+                .whereEqualTo("IdAccount", config.getIdAccount())
+                .whereEqualTo("IdProduct", idProduct)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String idAccount = document.get("IdAccount").toString();
+                            String idProduct = document.get("IdProduct").toString();
+                            MyFavoriteProduct myFavoriteProduct = new MyFavoriteProduct(id, idAccount, idProduct);
+                            myFavoriteProducts.add(myFavoriteProduct);
+                        }
+                    }
+                });
+        return myFavoriteProducts;
+    }
+
+    // thêm một sản phẩm yêu thích
+    public static void insertMyFavoriteProduct(String idProduct) {
+        Map<String, Object> newMFP = new HashMap<>();
+        newMFP.put("IdAccount", config.getIdAccount());
+        newMFP.put("IdProduct", idProduct);
+
+        db.collection("MyFavoriteProduct")
+                .document()
+                .set(newMFP)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
+    }
+
+    // xóa một sản phẩm yêu thích
+    public static void deleteMyFavoriteProduct(String idProduct) {
+        db.collection("MyFavoriteProduct")
+                .whereEqualTo("IdAccount", config.getIdAccount())
+                .whereEqualTo("IdProduct", idProduct)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("MyFavoriteProduct")
+                                    .document(document.getId())
+                                    .delete()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                        }
+                                    });
+                        }
                     }
                 });
     }

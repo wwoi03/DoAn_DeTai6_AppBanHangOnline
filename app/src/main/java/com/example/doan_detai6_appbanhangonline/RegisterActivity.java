@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         // kiểm tra tài khoản đã tồn tại trong hệ thống
                                         if (count > 0)
                                             Toast.makeText(RegisterActivity.this, "Tài khoản đã tồn tại", Toast.LENGTH_SHORT).show();
-                                        else {
+                                        else { // tài khoản chưa tồn tại
                                             Map<String, Object> account = new HashMap<>();
                                             putAccount(account);
                                             register(account);

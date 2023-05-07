@@ -68,10 +68,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
 
     private void initListener(CartVH holder, Cart cart, String id, int position) {
         // xử lý khi bấm vào một sản phẩm trong giỏ hàng
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.ivProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.setOnClickProductListener(cart.getProduct(), cart.getIdProduct());
+                listener.setOnClickIvProductListener(cart.getProduct(), cart.getIdProduct());
             }
         });
 
@@ -142,7 +142,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartVH> {
     }
 
     public interface Listener {
-        void setOnClickProductListener(Product product, String id);
+        void setOnClickIvProductListener(Product product, String id);
         void setOnClickBtDecreaseListener(Cart cart, int pos, EditText etQuantity);
         void setOnClickBtIncreaseListener(Cart cart, int pos, EditText etQuantity);
         void setOnTextChangedListener(Cart cart, int pos, EditText etQuantity);

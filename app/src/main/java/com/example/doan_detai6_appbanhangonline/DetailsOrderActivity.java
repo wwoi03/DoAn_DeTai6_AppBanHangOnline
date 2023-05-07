@@ -148,6 +148,7 @@ public class DetailsOrderActivity extends AppCompatActivity {
         order.loadRecipientAddress(tvAddress);
         order.getProduct().loadImage(ivProduct);
         order.loadQuantity(tvQuantity);
+        order.getProduct().loadPrice(tvPrice);
         order.loadTotal(tvTotalPrice);
         tvIdOrder.setText(order.getId());
         order.loadDateBuy(tvDateBuy);

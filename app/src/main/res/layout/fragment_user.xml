@@ -226,7 +226,61 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:src="@drawable/baseline_keyboard_arrow_right_24">
+                            android:src="@drawable/baseline_keyboard_arrow_right_24"
+                            app:tint="@color/normal_color">
+                        </ImageView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Đã thích-->
+                <LinearLayout
+                    android:id="@+id/llFavorite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/white_color"
+                    android:padding="16dp"
+                    android:layout_marginTop="2dp">
+
+                    <!--Icon tell me-->
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/baseline_favorite_border_24"
+                        app:tint="@color/primary_color">
+                    </ImageView>
+
+                    <!--TextView oder nen luoi ghi id-->
+                    <TextView
+                        android:layout_marginStart="8dp"
+                        android:layout_width="160dp"
+                        android:layout_height="match_parent"
+                        android:text="Đã thích"
+                        android:gravity="center_vertical"
+                        android:textSize="16sp"
+                        android:textColor="@color/black_color">
+                    </TextView>
+
+                    <!--Xem lich su mua hang ne, cai cho click vo ak-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="0 likes"
+                            android:gravity="center_vertical"
+                            android:textSize="16sp">
+                        </TextView>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/baseline_keyboard_arrow_right_24"
+                            app:tint="@color/normal_color">
                         </ImageView>
                     </LinearLayout>
                 </LinearLayout>
@@ -264,7 +318,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24">
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
+                        app:tint="@color/normal_color">
                     </ImageView>
                 </LinearLayout>
 
@@ -301,44 +356,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24">
-                    </ImageView>
-                </LinearLayout>
-
-                <!--Layout Talk to me-->
-                <LinearLayout
-                    android:id="@+id/llTextSupport"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/white_color"
-                    android:padding="16dp"
-                    android:layout_marginTop="2dp">
-
-                    <!--Icon tell me-->
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/baseline_support_agent_24">
-                    </ImageView>
-
-                    <!--TextView tell me voi -->
-                    <TextView
-                        android:id="@+id/tvTextSupport"
-                        android:layout_marginStart="8dp"
-                        android:layout_width="160dp"
-                        android:layout_height="match_parent"
-                        android:text="Trò chuyện với Sella"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="156dp"
-                        android:textSize="16sp"
-                        android:textColor="@color/black_color">
-                    </TextView>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/baseline_keyboard_arrow_right_24">
+                        android:src="@drawable/baseline_keyboard_arrow_right_24"
+                        app:tint="@color/normal_color">
                     </ImageView>
                 </LinearLayout>
             </LinearLayout>

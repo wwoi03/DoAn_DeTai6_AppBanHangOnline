@@ -53,7 +53,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (sharedPreferences != null) {
-            if (sharedPreferences.getString("email", "") != "") {
+            if (sharedPreferences.getString("id", "") != "") {
                 mainActivity();
             }
         }
@@ -72,11 +72,11 @@ public class SignInActivity extends AppCompatActivity {
         btSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isEmpty(etEmail.getText().toString(), etPassword.getText().toString())) {
-                    if (cbConfirm.isChecked()) {
+                if (isEmpty(etEmail.getText().toString(), etPassword.getText().toString())) { // kiểm tra chuỗi có rỗng hay không
+                    if (cbConfirm.isChecked()) { // kiểm tra đã xác nhận đăng nhập
                         String email = etEmail.getText().toString().trim();
                         String password = etPassword.getText().toString().trim();
-                        CheckAccount(email, password);
+                        CheckAccount(email, password); // kiểm tra tài khoản
                     }
                 }
             }
@@ -126,7 +126,7 @@ public class SignInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         // Kiểm tra trong task có truy vấn thành công hay không
                         if (task.isSuccessful()) {
-                            int count = 0;
+                            int count = 0; // kiểm tra tài khoản chưa tồn tại
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 count++;
                                 if (document.exists()) {
@@ -141,6 +141,7 @@ public class SignInActivity extends AppCompatActivity {
                                          *   2: MODE_APPEND: cho phép ghi thêm
                                          * */
                                         editor.putString("id", document.getId().toString());
+
                                         editor.commit();
 
                                         // chuyển qua trang chủ

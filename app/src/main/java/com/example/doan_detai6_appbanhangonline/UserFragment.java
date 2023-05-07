@@ -66,7 +66,7 @@ public class UserFragment extends Fragment {
         }
     }
 
-    LinearLayout llMyOrder, llAccountSetting;
+    LinearLayout llMyOrder, llAccountSetting, llFavorite;
     ImageView ivAccount;
     TextView tvUserName;
     @Override
@@ -90,6 +90,7 @@ public class UserFragment extends Fragment {
         llAccountSetting = view.findViewById(R.id.llAccountSetting);
         ivAccount = view.findViewById(R.id.ivAccount);
         tvUserName = view.findViewById(R.id.tvUserName);
+        llFavorite = view.findViewById(R.id.llFavorite);
     }
 
     private void initListener() {
@@ -107,6 +108,15 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AccountSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // xử lý khi bấm "Đã thích"
+        llFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MyFavoriteProductActivity.class);
                 startActivity(intent);
             }
         });

@@ -27,7 +27,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icons8_facebook_like_24">
+                android:src="@drawable/baseline_thumb_up_24">
             </ImageView>
         </LinearLayout>
 

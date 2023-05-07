@@ -2,16 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/mnuWaitForConfirmation"
-        android:title="Chờ xác nhận">
+        android:title="Chờ xác nhận"
+        android:icon="@drawable/baseline_payment_24">
     </item>
 
     <item
         android:id="@+id/mnuConfirmed"
-        android:title="Đã xác nhận">
+        android:title="Đã xác nhận"
+        android:icon="@drawable/baseline_card_giftcard_24">
     </item>
 
     <item
         android:id="@+id/mnuCancelled"
-        android:title="Đã hủy">
+        android:title="Đã hủy"
+        android:icon="@drawable/outline_cancel_presentation_24">
     </item>
 </menu>
