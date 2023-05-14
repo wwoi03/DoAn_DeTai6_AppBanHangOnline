@@ -133,6 +133,7 @@ public class PayActivity extends AppCompatActivity implements BuyAdapter.Listene
                         Intent intent = new Intent(PayActivity.this, MyOrderActivity.class);
                         intent.putExtra("fragment_to_show", "WFCF");
                         startActivity(intent);
+                        finish();
                     }
                 } else {
                     Toast.makeText(PayActivity.this, "Chưa có địa chỉ người nhận", Toast.LENGTH_SHORT).show();

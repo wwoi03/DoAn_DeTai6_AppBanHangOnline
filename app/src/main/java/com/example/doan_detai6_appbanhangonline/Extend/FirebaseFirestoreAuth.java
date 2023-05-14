@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -86,7 +87,7 @@ public class FirebaseFirestoreAuth {
         updateDeliveryAddress.put("Role", deliveryAddresses.getRole());
 
         db.collection("DeliveryAddress")
-                .document(deliveryAddresses.getId().trim())
+                .document(deliveryAddresses.getId())
                 .set(updateDeliveryAddress)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -151,6 +152,27 @@ public class FirebaseFirestoreAuth {
                             list.add(product);
                         }
                         adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    public static void getProduct(Product product, String idProduct) {
+        db.collection("Product")
+                .document(idProduct)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        product.setId(document.getId());
+                        product.setName(document.get("Name").toString());
+                        product.setPrice(document.get("Price", Double.class));
+                        product.setSold(document.get("Sold", Integer.class));
+                        product.setDescription(document.get("Description").toString());
+                        product.setUpdateDay(document.get("UpdateDay").toString()); // Ngày cập nhật
+                        product.setImageProduct(document.get("ImageProduct").toString());
+                        product.setIdSupplier(document.get("IdSupplier").toString());
+                        product.setIdCategory(document.get("IdCategory").toString());
                     }
                 });
     }
@@ -329,8 +351,8 @@ public class FirebaseFirestoreAuth {
     // lấy dữ liệu từ giỏ hàng
     public static void getCarts(ArrayList<Cart> list, RecyclerView.Adapter adapter) {
         carts.clear();
-        db.collection("Cart").whereEqualTo("IdAccount", config.getIdAccount())
-
+        db.collection("Cart")
+                .whereEqualTo("IdAccount", config.getIdAccount())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -509,6 +531,7 @@ public class FirebaseFirestoreAuth {
     // Load danh mục sản phẩm (Category)
     public static void getCategories(ArrayList<Category> list, RecyclerView.Adapter adapter) {
         db.collection("Category")
+                .orderBy("Name")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -528,7 +551,8 @@ public class FirebaseFirestoreAuth {
 
     /* ------------------------------- Account ------------------------------- */
     // lấy dữ liệu tài khoản
-    public static void getAccount(Account account) {
+    public static Account getAccount() {
+        Account account = new Account();
         db.collection("Account")
                 .document(config.getIdAccount())
                 .get()
@@ -537,14 +561,38 @@ public class FirebaseFirestoreAuth {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot document = task.getResult();
                         account.setId(document.getId());
-                        account.setImageAccount(document.get("Image").toString());
+                        account.setImageAccount(document.get("ImageAccount").toString());
                         account.setAddress(document.get("Address").toString());
                         account.setName(document.get("Name").toString());
                         account.setBirthday(document.get("Birthday").toString());
-                        account.setEmail("");
-                        account.setPassword("");
+                        account.setEmail(document.get("Email").toString());
+                        account.setPassword(document.get("Password").toString());
                         account.setGender(document.get("Gender").toString());
                         account.setPhone(document.get("Phone").toString());
+                    }
+                });
+        return account;
+    }
+
+    // update account
+    public static void updateAccount(Account account) {
+        Map<String,Object> newAccount = new HashMap<>();
+        newAccount.put("Address",account.getAddress());
+        newAccount.put("Birthday",account.getBirthday());
+        newAccount.put("Email",account.getEmail());
+        newAccount.put("Gender", account.getGender());
+        newAccount.put("ImageAccount", account.getImageAccount());
+        newAccount.put("Name", account.getName());
+        newAccount.put("Password",account.getPassword());
+        newAccount.put("Phone", account.getPhone());
+
+        FirebaseFirestoreAuth.db.collection("Account")
+                .document(account.getId())
+                .set(newAccount)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
                     }
                 });
     }

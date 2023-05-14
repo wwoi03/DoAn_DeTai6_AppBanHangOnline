@@ -156,9 +156,9 @@ public class AddressActivity extends AppCompatActivity implements DeliveryAddres
             if (deliveryAddresses.get(i).getRole() == 1) {
                 deliveryAddresses.get(i).setRole(0);
                 cr = deliveryAddresses.get(i);
+                FirebaseFirestoreAuth.updateDeliveryAddress(cr);
                 break;
             }
         }
-        FirebaseFirestoreAuth.updateDeliveryAddress(cr);
     }
 }

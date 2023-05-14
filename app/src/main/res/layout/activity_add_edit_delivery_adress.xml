@@ -45,6 +45,7 @@
             android:padding="16dp"
             android:background="@color/white_color"
             android:textColor="@color/black_color"
+            android:inputType="phone"
             android:hint="Số điện thoại"
             android:layout_marginBottom="2dp">
         </com.google.android.material.textfield.TextInputEditText>

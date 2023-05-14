@@ -35,6 +35,10 @@ public class Cart implements Serializable {
         this.product = product;
     }
 
+    public Cart() {
+
+    }
+
     public String getIdAccount() {
         return idAccount;
     }

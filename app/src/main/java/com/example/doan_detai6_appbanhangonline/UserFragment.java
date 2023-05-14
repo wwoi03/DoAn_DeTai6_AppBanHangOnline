@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
+import com.example.doan_detai6_appbanhangonline.Model.Account;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,6 +72,7 @@ public class UserFragment extends Fragment {
     LinearLayout llMyOrder, llAccountSetting, llFavorite;
     ImageView ivAccount;
     TextView tvUserName;
+    Account account;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class UserFragment extends Fragment {
 
         initUI(view);
         initListener();
+        initData();
+        loadAccount();
     }
 
     // ánh xạ view
@@ -91,6 +97,10 @@ public class UserFragment extends Fragment {
         ivAccount = view.findViewById(R.id.ivAccount);
         tvUserName = view.findViewById(R.id.tvUserName);
         llFavorite = view.findViewById(R.id.llFavorite);
+    }
+
+    private void initData() {
+        account = FirebaseFirestoreAuth.getAccount();
     }
 
     private void initListener() {
@@ -122,7 +132,8 @@ public class UserFragment extends Fragment {
         });
     }
 
-    private void loadInfoAccount() {
-
+    private void loadAccount() {
+        account.loadImage(ivAccount);
+        tvUserName.setText(account.getName());
     }
 }

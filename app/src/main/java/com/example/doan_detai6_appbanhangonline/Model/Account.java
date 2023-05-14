@@ -1,6 +1,12 @@
 package com.example.doan_detai6_appbanhangonline.Model;
 
-public class Account {
+import android.widget.ImageView;
+
+import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
+
+import java.io.Serializable;
+
+public class Account implements Serializable {
     String id;
     String email;
     String phone;
@@ -10,6 +16,9 @@ public class Account {
     String gender;
     String address;
     String imageAccount;
+
+    public Account() {
+    }
 
     public Account(String id, String email, String phone, String password, String name, String birthday, String gender, String address, String imageAccount) {
         this.id = id;
@@ -93,5 +102,9 @@ public class Account {
 
     public void setImageAccount(String imageAccount) {
         this.imageAccount = imageAccount;
+    }
+
+    public void loadImage(ImageView imageView) {
+        FirebaseStorageAuth.loadImage("Accounts", getImageAccount(), imageView);
     }
 }

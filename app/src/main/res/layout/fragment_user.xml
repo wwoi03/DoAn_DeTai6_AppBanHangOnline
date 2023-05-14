@@ -34,6 +34,7 @@
                     android:background="@color/primary_color"
                     android:orientation="horizontal"
                     android:gravity="center_horizontal|center_vertical"
+                    android:layout_marginBottom="8dp"
                     android:padding="16dp">
 
                     <!--image user-->
@@ -100,7 +101,7 @@
                 </LinearLayout>
 
                 <!--Layout chuyen trang tron tron circle-->
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -110,7 +111,7 @@
                     android:padding="16dp"
                     android:layout_marginBottom="8dp">
 
-                    <!--Anh chuyen trang chinh-->
+                    &lt;!&ndash;Anh chuyen trang chinh&ndash;&gt;
                     <LinearLayout
                         android:id="@+id/llHomePage"
                         android:layout_width="wrap_content"
@@ -145,7 +146,7 @@
                         </TextView>
                     </LinearLayout>
 
-                    <!--Anh chuyen trang Le hoi-->
+                    &lt;!&ndash;Anh chuyen trang Le hoi&ndash;&gt;
                     <LinearLayout
                         android:id="@+id/llFestival"
                         android:layout_width="wrap_content"
@@ -177,7 +178,7 @@
                             android:text="Thời trang">
                         </TextView>
                     </LinearLayout>
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <!--Layout Xem mua hang-->
                 <LinearLayout

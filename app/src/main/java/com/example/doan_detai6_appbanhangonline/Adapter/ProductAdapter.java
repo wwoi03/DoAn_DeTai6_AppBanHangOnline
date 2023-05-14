@@ -42,13 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         product.loadPrice(holder.tvPrice);
         product.loadSold(holder.tvSold);
 
-        /*initListener(holder, product, product.getId(), position);*/
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.setOnClickItemListener(product, product.getId());
-            }
-        });
+        initListener(holder, product, product.getId(), position);
     }
 
     @Override
@@ -57,12 +51,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     private void initListener(ProductVH holder, Product product, String id, int position) {
-        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.setOnClickItemListener(product, id);
             }
-        });*/
+        });
     }
 
     class ProductVH extends RecyclerView.ViewHolder {
@@ -77,14 +71,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvSold = itemView.findViewById(R.id.tvSold);
 
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+            /*RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) itemView.getLayoutParams();
             if (getAdapterPosition() % 2 != 0) {
                 params.leftMargin = itemView.getResources().getDimensionPixelOffset(R.dimen.dp_8);
                 params.rightMargin = itemView.getResources().getDimensionPixelOffset(R.dimen.dp_4);
             } else {
                 params.leftMargin = itemView.getResources().getDimensionPixelOffset(R.dimen.dp_4);
                 params.rightMargin = itemView.getResources().getDimensionPixelOffset(R.dimen.dp_8);
-            }
+            }*/
         }
     }
 

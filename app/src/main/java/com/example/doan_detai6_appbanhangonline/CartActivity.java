@@ -100,9 +100,13 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         btBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CartActivity.this, PayActivity.class);
-                intent.putExtra("buyCarts", buyCarts);
-                startActivity(intent);
+                if (buyCarts.size() > 0) {
+                    Intent intent = new Intent(CartActivity.this, PayActivity.class);
+                    intent.putExtra("buyCarts", buyCarts);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(CartActivity.this, "Chưa có sản phẩm", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
