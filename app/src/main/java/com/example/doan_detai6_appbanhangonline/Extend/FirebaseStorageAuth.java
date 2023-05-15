@@ -43,6 +43,7 @@ public class FirebaseStorageAuth {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Xử lý nếu không lấy được địa chỉ URL của hình ảnh
+                imageView.setImageResource(R.drawable.baseline_error_outline_24);
             }
         });
 

@@ -88,6 +88,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         config = new Config(getContext());
 
         initUI(view);
@@ -147,8 +148,17 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot document = task.getResult();
-                        FirebaseStorageAuth.loadImage("Accounts",document.get("ImageAccount").toString(),ivAccount);
-                        tvUserName.setText(document.get("Name").toString());
+
+                        String image = document.get("ImageAccount").toString();
+                        String name = document.get("Name").toString();
+
+                        if (name != "")
+                            tvUserName.setText(name);
+                        else
+                            tvUserName.setText(document.get("Email").toString());
+
+                        if (image != "")
+                            FirebaseStorageAuth.loadImage("Accounts", image,ivAccount);
                     }
                 });
     }

@@ -18,7 +18,6 @@ import com.example.doan_detai6_appbanhangonline.Model.Product;
 import java.util.ArrayList;
 
 public class MyFavoriteProductActivity extends AppCompatActivity implements MyFavoriteProductAdapter.Listener {
-
     RecyclerView rvMFP;
     MyFavoriteProductAdapter myFavoriteProductAdapter;
     ArrayList<Product> products;

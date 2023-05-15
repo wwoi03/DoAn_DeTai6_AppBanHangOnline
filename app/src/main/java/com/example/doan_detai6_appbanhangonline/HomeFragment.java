@@ -185,6 +185,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
     public void setOnClickItemListener(Product product, String id) {
         Intent intent = new Intent(getContext(), DetailsProductActivity.class);
         intent.putExtra("detailsProduct", product);
+        intent.putExtra("idProduct", id);
         startActivity(intent);
     }
 }

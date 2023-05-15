@@ -165,6 +165,7 @@ public class DetailsProductActivity extends AppCompatActivity implements Similar
 
     // get favorite
     private void getFavorite() {
+        Log.d("ABC", "DÚNG");
         FirebaseFirestoreAuth.db.collection("MyFavoriteProduct")
                 .whereEqualTo("IdAccount", config.getIdAccount())
                 .whereEqualTo("IdProduct", idProduct)
