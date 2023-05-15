@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.doan_detai6_appbanhangonline.Extend.Config;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseStorageAuth;
 import com.example.doan_detai6_appbanhangonline.Model.Account;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +77,7 @@ public class UserFragment extends Fragment {
     LinearLayout llMyOrder, llAccountSetting, llFavorite;
     ImageView ivAccount;
     TextView tvUserName;
-    Account account;
+    Config config;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,10 +88,12 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        config = new Config(getContext());
 
         initUI(view);
         initListener();
         initData();
+
         loadAccount();
     }
 
@@ -100,7 +107,7 @@ public class UserFragment extends Fragment {
     }
 
     private void initData() {
-        account = FirebaseFirestoreAuth.getAccount();
+
     }
 
     private void initListener() {
@@ -133,7 +140,16 @@ public class UserFragment extends Fragment {
     }
 
     private void loadAccount() {
-        account.loadImage(ivAccount);
-        tvUserName.setText(account.getName());
+        FirebaseFirestoreAuth.db.collection("Account")
+            .document(config.getIdAccount())
+            .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        FirebaseStorageAuth.loadImage("Accounts",document.get("ImageAccount").toString(),ivAccount);
+                        tvUserName.setText(document.get("Name").toString());
+                    }
+                });
     }
 }

@@ -26,6 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.example.doan_detai6_appbanhangonline.Adapter.CategoryAdapter;
 import com.example.doan_detai6_appbanhangonline.Adapter.ProductAdapter;
 import com.example.doan_detai6_appbanhangonline.Extend.FirebaseFirestoreAuth;
@@ -99,16 +102,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
     ProductAdapter productAdapter;
     ArrayList<Product> products;
     LinearLayout llCategoryAll;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ActivityResultLauncher<Intent> launcher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-
-                }
-            }
-    );
 
     @Override
     // HÀM CẦN QUAN TÂM: RENDER GIAO DIỆN
@@ -126,6 +119,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
         initUI(view);
         initData();
         initListener();
+        loadImageSlide(view);
     }
 
     // ánh xạ view
@@ -166,6 +160,19 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
         });
     }
 
+    // ImageSlide
+    private void loadImageSlide(View view) {
+        ImageSlider Sl= view.findViewById(R.id.imgSlider);
+        ArrayList<SlideModel> slModel=new ArrayList<>();
+        slModel.add(new SlideModel(R.drawable.ngay_hoi_shopee, ScaleTypes.FIT));
+        slModel.add(new SlideModel(R.drawable.shopee_tong_ket_2021, ScaleTypes.FIT));
+        slModel.add(new SlideModel(R.drawable.hoan_xu, ScaleTypes.FIT));
+        slModel.add(new SlideModel(R.drawable.mien_phi, ScaleTypes.FIT));
+        slModel.add(new SlideModel(R.drawable.gi_cung_re, ScaleTypes.FIT));
+
+        Sl.setImageList(slModel,ScaleTypes.FIT);
+    }
+
     @Override
     // xử lý khi bấm vào một thể loại bất kỳ
     public void setOnClickItemCategoryListener(String id) {
@@ -178,7 +185,6 @@ public class HomeFragment extends Fragment implements CategoryAdapter.Listener, 
     public void setOnClickItemListener(Product product, String id) {
         Intent intent = new Intent(getContext(), DetailsProductActivity.class);
         intent.putExtra("detailsProduct", product);
-        intent.putExtra("idProduct", id);
         startActivity(intent);
     }
 }

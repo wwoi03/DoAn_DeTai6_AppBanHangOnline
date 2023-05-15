@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -24,16 +25,26 @@
 
                 <!-- slides image -->
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="180dp">
 
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                    <!--<androidx.constraintlayout.utils.widget.ImageFilterView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ngay_hoi_shopee"
                         android:scaleType="fitXY">
-                    </androidx.constraintlayout.utils.widget.ImageFilterView>
+                    </androidx.constraintlayout.utils.widget.ImageFilterView>-->
+
+                    <!--Danh slide luot luot ne-->
+                    <com.denzcoskun.imageslider.ImageSlider
+                        android:id="@+id/imgSlider"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#EE4D2D"
+                        app:iss_auto_cycle="true"
+                        app:iss_delay="2000"
+                        app:iss_period="2000">
+                    </com.denzcoskun.imageslider.ImageSlider>
                 </LinearLayout>
 
                 <!-- Gợi ý sản phẩm -->

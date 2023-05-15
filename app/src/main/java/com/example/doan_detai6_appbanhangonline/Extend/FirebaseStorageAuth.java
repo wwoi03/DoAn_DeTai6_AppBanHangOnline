@@ -26,9 +26,8 @@ public class FirebaseStorageAuth {
     }
 
     public static void loadImage(String folder, String image, ImageView imageView) {
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
+        FirebaseStorage storage = FirebaseStorage.getInstance(); // khởi tạo đối tượng FirebaseStorage
+        StorageReference storageRef = storage.getReference(); // tham chiếu đến thư mục gốc của Firebase Storage
         StorageReference imageRef = storageRef.child(folder + "/" + image); // đường dẫn tới file hình ảnh trên Firebase Storage
 
         imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

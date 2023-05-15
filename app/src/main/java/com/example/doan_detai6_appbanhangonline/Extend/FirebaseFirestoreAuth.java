@@ -38,7 +38,6 @@ public class FirebaseFirestoreAuth {
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static ArrayList<Product> products = new ArrayList<>();
     public static ArrayList<Cart> carts = new ArrayList<>();
-    /*public static ArrayList<MyFavoriteProducts> myFavoriteProducts = new ArrayList<>();*/
 
     public FirebaseFirestoreAuth(Config config) {
         this.config = config;
@@ -657,6 +656,34 @@ public class FirebaseFirestoreAuth {
                                         }
                                     });
                         }
+                    }
+                });
+    }
+
+    // lấy tất cả sản phẩm yêu thích
+    public static void getMyFavoriteProducts(ArrayList<Product> list, RecyclerView.Adapter adapter) {
+        db.collection("MyFavoriteProduct")
+                .whereEqualTo("IdAccount", config.getIdAccount())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String id = document.getId();
+                            String idProduct = document.get("IdProduct").toString();
+                            String idAccount = document.get("IdAccount").toString();
+
+                            Product product = new Product();
+                            for (int i = 0; i < products.size(); i++) {
+                                if (idProduct.equals(products.get(i).getId())) {
+                                    product = products.get(i);
+                                    list.add(product);
+                                    break;
+                                }
+                            }
+                        }
+
+                        adapter.notifyDataSetChanged();
                     }
                 });
     }

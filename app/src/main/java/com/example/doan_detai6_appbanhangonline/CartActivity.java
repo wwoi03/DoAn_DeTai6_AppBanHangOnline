@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,10 +53,10 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
     RecyclerView rvCarts;
     CartAdapter cartAdapter;
     ArrayList<Cart> carts;
-    ArrayList<Product> products;
     ArrayList<Cart> buyCarts;
     CheckBox cbChooseAll;
     TextView tvTotalPrice;
+    LinearLayout llEmpty;
     Button btBuy;
     Config config;
     double total = 0;
@@ -68,6 +70,8 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         initUI();
         initData();
         initListener();
+
+        loadCartEmpty();
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(rvCarts);
@@ -92,6 +96,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         cbChooseAll = findViewById(R.id.cbChooseAll);
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
         btBuy = findViewById(R.id.btBuy);
+        llEmpty = findViewById(R.id.llEmpty);
     }
 
     // xử lý sự kiện
@@ -104,6 +109,7 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
                     Intent intent = new Intent(CartActivity.this, PayActivity.class);
                     intent.putExtra("buyCarts", buyCarts);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(CartActivity.this, "Chưa có sản phẩm", Toast.LENGTH_SHORT).show();
                 }
@@ -113,9 +119,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
 
     // khởi tạo
     private void initData() {
-        // product
-        products = FirebaseFirestoreAuth.products;
-
         // buyCart
         buyCarts = new ArrayList<>();
 
@@ -123,7 +126,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         carts = new ArrayList<>();
         cartAdapter = new CartAdapter(carts, CartActivity.this);
         FirebaseFirestoreAuth.getCarts(carts, cartAdapter);
-        /*getSupportActionBar().setTitle("Giỏ hàng (" + cartAdapter.getItemCount() + ")");*/
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false);
         rvCarts.setLayoutManager(linearLayoutManager);
         rvCarts.setAdapter(cartAdapter);
@@ -135,7 +137,6 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
         Intent intent = new Intent(this, DetailsProductActivity.class);
         intent.putExtra("detailsProduct", product);
         intent.putExtra("idProduct", id);
-        /*launcher.launch(intent);*/
         startActivity(intent);
     }
 
@@ -213,16 +214,17 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
             carts.remove(position);
             cartAdapter.notifyDataSetChanged();
 
-            Snackbar snackbar = Snackbar
-                    .make(rvCarts, "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(rvCarts, "Bạn có chắc muốn xóa sản phẩm khỏi giỏ hàng", Snackbar.LENGTH_LONG);
             snackbar.setAction("Hoàn tác", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     FirebaseFirestoreAuth.insertCartAfterDelete(deleteProduct, deleteProduct.getQuantity());
                     carts.add(deleteProduct);
                     cartAdapter.notifyDataSetChanged();
+                    loadCartEmpty();
                 }
             }).setBackgroundTint(Color.WHITE).setTextColor(Color.RED).setActionTextColor(Color.GREEN).show();
+            loadCartEmpty();
         }
 
         @Override
@@ -235,4 +237,17 @@ public class CartActivity extends AppCompatActivity implements CartAdapter.Liste
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
+
+    private void loadCartEmpty() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (carts.size() == 0) {
+                    llEmpty.setVisibility(View.VISIBLE);
+                } else {
+                    llEmpty.setVisibility(View.GONE);
+                }
+            }
+        }, 500);
+    }
 }
